@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/letalk.iml" filepath="$PROJECT_DIR$/.idea/modules/letalk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/letalk.iml" filepath="$PROJECT_DIR$/letalk.iml" />
     </modules>
   </component>
 </project>
