@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "551873737912",
+    "firebase_url": "https://letalk-273a8.firebaseio.com",
+    "project_id": "letalk-273a8",
+    "storage_bucket": "letalk-273a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551873737912:android:dda2e4b6c225501e",
+        "android_client_info": {
+          "package_name": "kr.co.allright.letalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "551873737912-vae1ishjvhhr87u8srgb46ulg8qbr92n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.co.allright.letalk",
+            "certificate_hash": "5A3566B26BBF6719765D314B41129F7788182837"
+          }
+        },
+        {
+          "client_id": "551873737912-fd8e8sfj6p8psdid8f42aas97j25ektu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzthr-drRjioiqnSFWiwaus0MNCY3yvIU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551873737912-fd8e8sfj6p8psdid8f42aas97j25ektu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
