@@ -1,17 +1,19 @@
 package kr.co.allright.letalk.manager;
 
-import android.Manifest;
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
+
+import kr.co.allright.letalk.data.User;
 
 /**
  * Created by MacPro on 2017. 1. 3..
@@ -19,12 +21,16 @@ import java.util.UUID;
 
 public class UserManager {
     private static UserManager mInstance = null;
-
     private Context mContext;
-    private static final String PREFS_FILE = "user_info.xml";
+
+    public static final String PREFS_FILE = "user_info.xml";
+    public static final String PREFS_LOGIN_ID = "login_id";
+    public static final String PREFS_EMAIL = "email";
     private static final String PREFS_DEVICE_ID = "device_id";
+
     private volatile static UUID mUniqId;
-    private static String mEmail;
+    public static User mUser;
+    private DatabaseReference mDBMyRef;
 
     public static UserManager getInstance(){
         return mInstance;
@@ -34,6 +40,7 @@ public class UserManager {
         mInstance = this;
 
         mContext = _context;
+        mUser = new User();
 
         makeDeviceID();
     }
@@ -42,30 +49,33 @@ public class UserManager {
         return mUniqId.toString();
     }
 
-    public void login() {
-        getUserEmail();
+    public void onSignUp(String _email, String _name, String _age, String _roomTitle) {
+        String loginId = _email + "-" + mUniqId.toString();
 
-        Firebase.getInstance().onLogin(mEmail, mUniqId.toString());
+        mUser.loginId = loginId;
+        mUser.email = _email;
+        mUser.name = _name;
+        mUser.age = Integer.parseInt(_age);
+        mUser.myroomTitle = _roomTitle;
+
+        Firebase.getInstance().onSignUp(loginId, mUniqId.toString());
     }
 
-    private void getUserEmail() {
-        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+    public void setMyRef(DatabaseReference _dbref){
+        mDBMyRef = _dbref;
+        mUser.keyid = mDBMyRef.getKey();
 
-        AccountManager accountManager = AccountManager.get(mContext);
-        Account[] accounts = accountManager.getAccountsByType("com.google");
-        Account account = null;
+        mDBMyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUser = dataSnapshot.getValue(User.class);
+            }
 
-        if (accounts.length > 0) {
-            account = accounts[0];
-        }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        if (account == null) {
-            mEmail = null;
-        } else {
-            mEmail = account.name;
-        }
+            }
+        });
     }
 
     private void makeDeviceID(){

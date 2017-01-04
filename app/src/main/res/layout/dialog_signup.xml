@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:text="시작하기"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textSize="24sp"
+        android:textAlignment="center" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/et_email"
+        android:hint="* 이메일을 입력하세요"
+        android:maxLines="1"
+        android:background="@drawable/apptheme_edit_text_holo_light" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/et_name"
+        android:hint="이름을 입력하세요."
+        android:maxLines="1"
+        android:background="@drawable/apptheme_edit_text_holo_light" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/et_age"
+        android:hint="나이를 입력하세요."
+        android:maxLines="1"
+        android:maxLength="2"
+        android:background="@drawable/apptheme_edit_text_holo_light" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/et_myroom_title"
+        android:hint="인사말을 입력하세요."
+        android:maxLines="1"
+        android:background="@drawable/apptheme_edit_text_holo_light" />
+
+    <Button
+        android:text="시작하기"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_signup"
+        android:background="@drawable/apptheme_btn_default_holo_light" />
+
+</LinearLayout>
