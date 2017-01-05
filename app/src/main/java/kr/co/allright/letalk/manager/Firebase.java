@@ -89,9 +89,12 @@ public class Firebase {
 
         final SharedPreferences preferences = mContext.getSharedPreferences(PREFS_FILE, 0);
         preferences.edit().putString(PREFS_LOGIN_ID, user.loginId).commit();
+
+        RoomManager.getInstance().makeNewMyRoom();
     }
 
     private void setDatabse(FirebaseUser _fbuser){
+        // 로그인 완료시 호출됨
         FirebaseUser fbuser = _fbuser;
 
         DatabaseReference myRef = mDBUsersRef.child(fbuser.getUid());

@@ -5,15 +5,18 @@ import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.UUID;
 
 import kr.co.allright.letalk.data.User;
+import kr.co.allright.letalk.fragment.ProfileFragment;
 
 /**
  * Created by MacPro on 2017. 1. 3..
@@ -69,6 +72,7 @@ public class UserManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mUser = dataSnapshot.getValue(User.class);
+                ProfileFragment.getInstance().updateUI();
             }
 
             @Override
@@ -76,6 +80,50 @@ public class UserManager {
 
             }
         });
+
+        mDBMyRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mDBMyRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mUser = dataSnapshot.getValue(User.class);
+                ProfileFragment.getInstance().updateUI();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void udpateUser(HashMap<String, Object> _map){
+        mDBMyRef.updateChildren(_map);
     }
 
     private void makeDeviceID(){
