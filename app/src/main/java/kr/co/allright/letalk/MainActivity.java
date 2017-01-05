@@ -116,6 +116,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mUserManager.onResume();
+        mRoomManager.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mUserManager.onPause();
+        mRoomManager.onPause();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         mFirebase.onStart();

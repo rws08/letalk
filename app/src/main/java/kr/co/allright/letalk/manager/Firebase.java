@@ -119,6 +119,7 @@ public class Firebase {
                 if (user != null) {
                     // User is signed in
                     setDatabse(user);
+                    UserManager.getInstance().updateUserLoginTime();
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");

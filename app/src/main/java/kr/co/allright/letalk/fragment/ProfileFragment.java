@@ -7,12 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import java.util.HashMap;
 
 import kr.co.allright.letalk.R;
 import kr.co.allright.letalk.data.User;
 import kr.co.allright.letalk.manager.UserManager;
+
+import static kr.co.allright.letalk.data.User.SEX_MAN;
+import static kr.co.allright.letalk.data.User.SEX_WOMAN;
 
 /**
  * Created by MacPro on 2017. 1. 4..
@@ -23,6 +27,7 @@ public class ProfileFragment extends Fragment {
 
     private EditText mEtName;
     private EditText mEtAge;
+    private RadioGroup mRgroupSex;
     private Button mBtnAccept;
 
     public static ProfileFragment getInstance(){
@@ -42,6 +47,11 @@ public class ProfileFragment extends Fragment {
         if (mEtName != null) {
             mEtName.setText(user.name);
             mEtAge.setText("" + user.age);
+            if(user.sex.equals(SEX_MAN)){
+                mRgroupSex.check(R.id.rbtn_man);
+            }else{
+                mRgroupSex.check(R.id.rbtn_woman);
+            }
         }
     }
 
@@ -51,6 +61,7 @@ public class ProfileFragment extends Fragment {
 
         mEtName = (EditText) view.findViewById(R.id.et_name);
         mEtAge = (EditText) view.findViewById(R.id.et_age);
+        mRgroupSex = (RadioGroup) view.findViewById(R.id.rbtngroup);
         mBtnAccept = (Button) view.findViewById(R.id.btn_accept);
 
         setUI();
@@ -63,8 +74,11 @@ public class ProfileFragment extends Fragment {
         mBtnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String sex = mRgroupSex.getCheckedRadioButtonId() == R.id.rbtn_man ? SEX_MAN:SEX_WOMAN;
+
                 HashMap<String, Object> map = new HashMap();
                 map.put("name", mEtName.getText().toString());
+                map.put("sex", sex);
                 map.put("age", Integer.parseInt(mEtAge.getText().toString()));
 
                 UserManager.getInstance().udpateUser(map);

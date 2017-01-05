@@ -10,10 +10,14 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import kr.co.allright.letalk.R;
 import kr.co.allright.letalk.Supporter;
 import kr.co.allright.letalk.manager.UserManager;
+
+import static kr.co.allright.letalk.data.User.SEX_MAN;
+import static kr.co.allright.letalk.data.User.SEX_WOMAN;
 
 /**
  * Created by MacPro on 2017. 1. 4..
@@ -23,6 +27,7 @@ public class SignupDialog extends Dialog {
     private EditText mEtEmail;
     private EditText mEtName;
     private EditText mEtAge;
+    private RadioGroup mRgroupSex;
     private EditText mEtRoomTitle;
     private Button mBtnSignup;
 
@@ -39,6 +44,7 @@ public class SignupDialog extends Dialog {
         mEtEmail = (EditText) findViewById(R.id.et_email);
         mEtName = (EditText) findViewById(R.id.et_name);
         mEtAge = (EditText) findViewById(R.id.et_age);
+        mRgroupSex = (RadioGroup) findViewById(R.id.rbtngroup);
         mEtRoomTitle = (EditText) findViewById(R.id.et_myroom_title);
         mBtnSignup = (Button) findViewById(R.id.btn_signup);
 
@@ -65,9 +71,10 @@ public class SignupDialog extends Dialog {
                 String email = mEtEmail.getText().toString();
                 String name = mEtName.getText().toString();
                 String age = mEtAge.getText().toString();
+                String sex = mRgroupSex.getCheckedRadioButtonId() == R.id.rbtn_man ? SEX_MAN:SEX_WOMAN;
                 String roomtitle = mEtRoomTitle.getText().toString();
 
-                UserManager.getInstance().onSignUp(email, name, age, roomtitle);
+                UserManager.getInstance().onSignUp(email, name, age, sex, roomtitle);
             }
         });
 

@@ -3,15 +3,6 @@
 
     <item
         is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.1.0_04f92899850a1871dece914ee5a52dac9966702e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.firebase/firebase-analytics-impl/10.0.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -57,39 +48,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="d38084015027549951cbaea5d5f6fb795cc81151">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.1.0_64d9c6d33773ede6dd7b350e0c2fd2c9ae815820/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.firebase/firebase-iid/10.0.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
         sha1="486371f97baad8e607f332f20fee1d3dd00a731a">
         <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-iid-10.0.1_9deaf89c9ca7e66b5811892b8d9ddb221ec2f1b2/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/10.0.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="eb0d830e3eabb9deb9ec44869cf7ac7ea1ad794c">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-common-10.0.1_09524903249ec4a01333ca29ad4b4b0fee1debc4/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="1ee7113ba855be5f635febf7c293e067a2b96d4a">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_f57f6e836feae04e21aa85d11bd8b190af18e2e0/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -111,30 +75,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="aee64634871d88a419d59eb743c1258a60f19700">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.0_57e92d61bdc5788bbc0f784a7ca60c9196dc0cff/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/10.0.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
         sha1="25438f55fc6d906a0e72f30b21487541430ede43">
         <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-base-10.0.1_21e2553f66beb277d877bf09d27f5ef29ea2f1ad/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads-lite/10.0.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="b955cb3a1ad6f1b6ff728ce1e0cd592c1717b440">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-ads-lite-10.0.1_9421fc78fe94bcf6b53d2659754f8d9da993b16e/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -153,24 +99,6 @@
         revision="24.0.0"
         sha1="d0460bf07cc3657e0be518ca01c174493951c6b8">
         <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-ads-10.0.1_04f68cbaa3ab3618f212eac51c917067c8390f71/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/10.0.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-10.0.1_57c7f9dcad7c451209da5b5d96c01a74d4c464eb/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/design/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="30103d98fa5ed824b54af839c85e2111f9bde8ec">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.1.0_c105c80eee64bab996f97abf7cb5259c0f219fab/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -201,39 +129,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/10.0.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="6addaba208e21c6da776d0ca75b6b23a6ccd5499">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tasks-10.0.1_a2a88eb70235621ae45767e91489a021391e87c6/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gass/10.0.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
         sha1="57c2eceb8548de84509d1ebc293fedec53231f6c">
         <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-gass-10.0.1_214170e73229a6a73bcde6bf81957cf1a4123413/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.1.0_fda9723c5daca41312f05572d8fdfbc406d4fb3e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
-        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.1.0_c1a86da4fa330f1fe24801ab1cdd773956dbc43b/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -282,6 +183,105 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.1.0_04f92899850a1871dece914ee5a52dac9966702e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/transition/25.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="d38084015027549951cbaea5d5f6fb795cc81151">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-transition-25.1.0_64d9c6d33773ede6dd7b350e0c2fd2c9ae815820/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.firebase/firebase-common/10.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="eb0d830e3eabb9deb9ec44869cf7ac7ea1ad794c">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.firebase-firebase-common-10.0.1_09524903249ec4a01333ca29ad4b4b0fee1debc4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="16fbff5c972fda46c77f640f49e6da47ce720be7">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_f57f6e836feae04e21aa85d11bd8b190af18e2e0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="aee64634871d88a419d59eb743c1258a60f19700">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.1.0_57e92d61bdc5788bbc0f784a7ca60c9196dc0cff/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads-lite/10.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="b955cb3a1ad6f1b6ff728ce1e0cd592c1717b440">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-ads-lite-10.0.1_9421fc78fe94bcf6b53d2659754f8d9da993b16e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/10.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-basement-10.0.1_57c7f9dcad7c451209da5b5d96c01a74d4c464eb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/design/25.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="30103d98fa5ed824b54af839c85e2111f9bde8ec">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-25.1.0_c105c80eee64bab996f97abf7cb5259c0f219fab/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-tasks/10.0.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="6addaba208e21c6da776d0ca75b6b23a6ccd5499">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.google.android.gms-play-services-tasks-10.0.1_a2a88eb70235621ae45767e91489a021391e87c6/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="b266c8faa5af72e579b9da36ef35053ffed6ac64">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-25.1.0_fda9723c5daca41312f05572d8fdfbc406d4fb3e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.1.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="6fb6ac3e8d3b9013819920d9ea11f3803c4c0033">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.1.0_c1a86da4fa330f1fe24801ab1cdd773956dbc43b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.1.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -295,7 +295,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="0c46559494a704e7c3506e5bd8cf9ce1640d09fb">
+        sha1="ec0f18f01014ef3c22a0da29a725aa6450969411">
         <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_29a75edb272c17df3521ca2aa36235dea578ff7d/classes.dex" />
     </item>
 
