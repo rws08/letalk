@@ -223,7 +223,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="f47fe724d31535e2b189e22b829b518cb585324a">
+        sha1="531706d92b326b88230bbe2f259ee0d2f6ae7aa3">
         <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_f57f6e836feae04e21aa85d11bd8b190af18e2e0/classes.dex" />
     </item>
     <item
@@ -304,7 +304,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="66dfc636b0435439757e9277251b2f3010fe2ab1">
+        sha1="aafcb786601d7b6017f6605cef34a33629d2cbea">
         <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_29a75edb272c17df3521ca2aa36235dea578ff7d/classes.dex" />
     </item>
 

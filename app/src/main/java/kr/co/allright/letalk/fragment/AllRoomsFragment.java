@@ -26,6 +26,7 @@ import kr.co.allright.letalk.R;
 import kr.co.allright.letalk.Supporter;
 import kr.co.allright.letalk.data.Room;
 import kr.co.allright.letalk.data.User;
+import kr.co.allright.letalk.manager.GeoManager;
 import kr.co.allright.letalk.manager.RoomManager;
 import kr.co.allright.letalk.manager.UserManager;
 
@@ -79,6 +80,21 @@ public class AllRoomsFragment extends Fragment {
     private void setUI(){
         mRecRooms.setLayoutManager(mManagerRecRooms);
         mRecRooms.setAdapter(mAdapterRecRooms);
+
+        mBtnAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAllRooms();
+            }
+        });
+
+        mBtn100.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: 거리별 조회 처리
+                GeoManager.getInstance().searchRange(10);
+            }
+        });
     }
 
     @Override
