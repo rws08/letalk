@@ -174,6 +174,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.firebase/geofire-android/2.1.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="0255d2343d1370f39024fb111568a705b2eb49cd">
+        <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.firebase-geofire-android-2.1.1_508fbd2f2104ff793b63f8bcae108e7db602c61d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.1.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -214,7 +223,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="2e2c5d8654935f1e3647d2fcc00cb7f36eb4f834">
+        sha1="f47fe724d31535e2b189e22b829b518cb585324a">
         <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_f57f6e836feae04e21aa85d11bd8b190af18e2e0/classes.dex" />
     </item>
     <item
@@ -295,7 +304,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="ba5c3a2af468382227ff15f5ef77315545369c4b">
+        sha1="66dfc636b0435439757e9277251b2f3010fe2ab1">
         <dex dex="/Users/MacPro/Documents/project/personal/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_29a75edb272c17df3521ca2aa36235dea578ff7d/classes.dex" />
     </item>
 

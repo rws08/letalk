@@ -19,12 +19,12 @@ public class User {
     public String sex = "";
     public String profile = "";
     public long logintime = 0;
-    public long lon = 0;
-    public long lan = 0;
+    public double lon = 0;
+    public double lat = 0;
     public String myroomId = "";
     public String myroomTitle = "";
-    public long pointMile = 0;
-    public long pointBuy = 0;
+    public double pointMile = 0;
+    public double pointBuy = 0;
     public Map<String, Boolean> roomIds = new HashMap<>();
 
     public User() {

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
+import com.firebase.geofire.GeoLocation;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -107,6 +108,16 @@ public class UserManager {
 
     public void udpateUser(HashMap<String, Object> _map){
         mDBMyRef.updateChildren(_map);
+    }
+
+    public void updateUserLocation(){
+        HashMap<String, Object> map = new HashMap();
+        map.put("lat", GPSTracker.getInstance().getLatitude());
+        map.put("lon", GPSTracker.getInstance().getLongitude());
+
+        udpateUser(map);
+
+        GeoManager.getInstance().getGeoFire().setLocation(mUser.keyid, new GeoLocation(GPSTracker.getInstance().getLatitude(), GPSTracker.getInstance().getLongitude()));
     }
 
     public void updateUserLoginTime(){

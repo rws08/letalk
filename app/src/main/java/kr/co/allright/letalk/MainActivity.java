@@ -2,6 +2,7 @@ package kr.co.allright.letalk;
 
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -18,20 +19,27 @@ import android.widget.Toast;
 import kr.co.allright.letalk.fragment.AllRoomsFragment;
 import kr.co.allright.letalk.fragment.ProfileFragment;
 import kr.co.allright.letalk.manager.Firebase;
+import kr.co.allright.letalk.manager.GPSTracker;
+import kr.co.allright.letalk.manager.GeoManager;
 import kr.co.allright.letalk.manager.RoomManager;
 import kr.co.allright.letalk.manager.UserManager;
 import kr.co.allright.letalk.views.SignupDialog;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static kr.co.allright.letalk.manager.UserManager.PREFS_FILE;
 import static kr.co.allright.letalk.manager.UserManager.PREFS_LOGIN_ID;
 
 public class MainActivity extends AppCompatActivity {
     private static MainActivity mInstance = null;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 200;
 
     public SignupDialog mSignupDl;
 
     private Firebase mFirebase;
+    private GPSTracker mGps;
+    private GeoManager mGeoManager;
     private UserManager mUserManager;
     private RoomManager mRoomManager;
 
@@ -78,7 +86,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createManager(){
+        mGps = new GPSTracker(this);
         mFirebase = new Firebase(this);
+        mGeoManager = new GeoManager(this);
         mUserManager = new UserManager(this);
         mRoomManager = new RoomManager(this);
     }
@@ -111,7 +121,19 @@ public class MainActivity extends AppCompatActivity {
         final String loginId = preferences.getString(PREFS_LOGIN_ID, null);
 
         if (loginId == null) {
-            showSignup();
+            if (!mGps.canGetLocation()){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                }else{
+                    showSignup();
+                }
+            }else {
+                showSignup();
+            }
+        }else{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            }
         }
     }
 
@@ -203,11 +225,11 @@ public class MainActivity extends AppCompatActivity {
      * Show the contacts in the ListView.
      */
     private void showContacts() {
-        if (checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
-        } else {
-            // 권한 동의 완료
-        }
+//        if (checkSelfPermission(android.Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
+//        } else {
+//            // 권한 동의 완료
+//        }
     }
 
     @Override
@@ -218,6 +240,19 @@ public class MainActivity extends AppCompatActivity {
                 showContacts();
             } else {
                 Toast.makeText(this, "사용권한이 없어 실행할 수 없습니다", Toast.LENGTH_SHORT).show();
+            }
+        }else if(requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mGps.getLocation();
+            } else {
+//                Toast.makeText(this, "사용권한이 없어 실행할 수 없습니다", Toast.LENGTH_SHORT).show();
+            }
+
+            final SharedPreferences preferences = this.getSharedPreferences(PREFS_FILE, 0);
+            final String loginId = preferences.getString(PREFS_LOGIN_ID, null);
+
+            if (loginId == null) {
+                showSignup();
             }
         }
     }

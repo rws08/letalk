@@ -120,6 +120,7 @@ public class Firebase {
                 if (user != null) {
                     // User is signed in
                     setDatabse(user);
+                    UserManager.getInstance().updateUserLocation();
                     UserManager.getInstance().updateUserLoginTime();
                 } else {
                     // User is signed out
