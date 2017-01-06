@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return "전체 방";
                 case 1:
-                    return "내 방";
+                    return "참여 방";
                 case 2:
                     return "기타";
                 default:

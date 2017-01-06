@@ -35,36 +35,48 @@ public class RoomManager {
         mDBRoomsRef = mDatabase.getReference("rooms");
     }
 
+    public DatabaseReference getRoomRefWithId(String _keyid){
+        DatabaseReference roomRef = mDBRoomsRef.child(_keyid);
+        return roomRef;
+    }
+
     public void makeNewMyRoom(){
         DatabaseReference myRoomRef = mDBRoomsRef.push();
         String keyid = myRoomRef.getKey();
         User user = UserManager.getInstance().mUser;
 
         HashMap<String, Object> map = new HashMap();
-        map.put("myroomId", user.myroomId);
+        map.put("myroomId", keyid);
         UserManager.getInstance().udpateUser(map);
 
         Room room = new Room(keyid, user.myroomTitle);
+        room.visible = true;
         room.userIds.put(user.keyid, true);
 
         myRoomRef.setValue(room);
         myRoomRef.child("createtime").setValue(ServerValue.TIMESTAMP);
     }
 
-    public void deleteMyRoom(){
+    public DatabaseReference getRoomsRef(){
+        return mDBRoomsRef;
+    }
+
+    public DatabaseReference getMyRoomRef(){
         User user = UserManager.getInstance().mUser;
-        if (user.myroomId.length() > 0){
-            DatabaseReference myRoomRef = mDBRoomsRef.child(user.myroomId);
+        DatabaseReference myRoomRef = null;
+        if (user.myroomId != null){
+            myRoomRef = getRoomRefWithId(user.myroomId);
         }
+        return myRoomRef;
+    }
+
+    public void udpateMyRoom(HashMap<String, Object> _map){
+        getMyRoomRef().updateChildren(_map);
     }
 
     public void onResume(){
-//        mDBMyRef.onDisconnect()
     }
 
     public void onPause(){
-//        if (mAuthListener != null) {
-//            mAuth.removeAuthStateListener(mAuthListener);
-//        }
     }
 }

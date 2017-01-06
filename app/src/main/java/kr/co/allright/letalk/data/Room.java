@@ -12,7 +12,9 @@ import java.util.Map;
 public class Room {
     public String keyid;
     public String title;
+    public boolean visible;
     public long createtime = 0;
+    public int userCount = 1;
     public Map<String, Boolean> userIds = new HashMap<>();
     public List<Message> messages = new ArrayList<>();
 

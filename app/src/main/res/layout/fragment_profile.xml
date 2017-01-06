@@ -74,11 +74,10 @@
             android:layout_marginRight="20dp" />
         <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:checkedButton="@+id/rbtn_man"
             android:id="@+id/rbtngroup"
             android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
+            android:layout_height="match_parent">
 
             <RadioButton
                 android:text="남자"
@@ -98,6 +97,25 @@
 
         </RadioGroup>
     </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/et_myroom_title"
+        android:hint="인사말을 입력하세요."
+        android:maxLines="1"
+        android:background="@drawable/apptheme_edit_text_holo_light"
+        android:layout_marginTop="10dp" />
+
+    <Switch
+        android:text="내방 보이기"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sw_myroom"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp" />
 
     <Button
         android:text="변경하기"

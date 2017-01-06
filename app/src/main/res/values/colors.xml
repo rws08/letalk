@@ -3,4 +3,6 @@
     <color name="colorPrimary">#8899f9</color>
     <color name="colorPrimaryDark">#2436ac</color>
     <color name="colorAccent">#9500f9</color>
+    <color name="man_text">#4183ff</color>
+    <color name="woman_text">#ff4193</color>
 </resources>

@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import kr.co.allright.letalk.data.User;
-import kr.co.allright.letalk.fragment.ProfileFragment;
 
 /**
  * Created by MacPro on 2017. 1. 3..
@@ -39,6 +38,9 @@ public class UserManager {
     private ValueEventListener mValueListener;
     private ChildEventListener mEventListener;
 
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mDBUsersRef;
+
     public static UserManager getInstance(){
         return mInstance;
     }
@@ -48,6 +50,9 @@ public class UserManager {
 
         mContext = _context;
         mUser = new User();
+
+        mDatabase = FirebaseDatabase.getInstance();
+        mDBUsersRef = mDatabase.getReference("users");
 
         makeDeviceID();
     }
@@ -69,6 +74,18 @@ public class UserManager {
         Firebase.getInstance().onSignUp(loginId, mUniqId.toString());
     }
 
+    public DatabaseReference getUsersRef(){
+        return mDBUsersRef;
+    }
+
+    public DatabaseReference getUserRefWithId(String _keyid){
+        return mDBUsersRef.child(_keyid);
+    }
+
+    public DatabaseReference getMyRef(){
+        return mDBMyRef;
+    }
+
     public void setMyRef(DatabaseReference _dbref){
         mDBMyRef = _dbref;
         mUser.keyid = mDBMyRef.getKey();
@@ -77,7 +94,6 @@ public class UserManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mUser = dataSnapshot.getValue(User.class);
-                ProfileFragment.getInstance().updateUI();
             }
 
             @Override
@@ -86,39 +102,7 @@ public class UserManager {
             }
         };
 
-        mEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.getKey().equals("logintime")){
-
-                }else{
-                    Toast.makeText(mContext, "업데이트 되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(mContext, "업데이트를 실패했습니다.", Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        mDBMyRef.addChildEventListener(mEventListener);
-        mDBMyRef.addValueEventListener(mValueListener);
+        mDBMyRef.addListenerForSingleValueEvent(mValueListener);
     }
 
     public void udpateUser(HashMap<String, Object> _map){
@@ -130,15 +114,13 @@ public class UserManager {
     }
 
     public void onResume(){
-        if (mEventListener != null){
-            mDBMyRef.addChildEventListener(mEventListener);
-            mDBMyRef.addValueEventListener(mValueListener);
+        if (mValueListener != null){
+            mDBMyRef.addListenerForSingleValueEvent(mValueListener);
         }
     }
 
     public void onPause(){
-        if (mEventListener != null) {
-            mDBMyRef.removeEventListener(mEventListener);
+        if (mValueListener != null) {
             mDBMyRef.removeEventListener(mValueListener);
         }
     }

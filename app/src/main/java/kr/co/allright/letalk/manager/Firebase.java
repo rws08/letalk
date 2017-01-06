@@ -61,6 +61,7 @@ public class Firebase {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     makeNewUser(task.getResult().getUser());
+                    onLogin(_email);
                 }else{
                     onLogin(_email);
                 }
