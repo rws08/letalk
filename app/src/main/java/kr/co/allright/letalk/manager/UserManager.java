@@ -33,8 +33,13 @@ public class UserManager {
     public static final String PREFS_EMAIL = "email";
     private static final String PREFS_DEVICE_ID = "device_id";
 
+    private static final String USER_KEY_LASTACTIONTIME = "lastActionTime";
+
     private volatile static UUID mUniqId;
+
     public static User mUser;
+    public long mLastActionTime;
+
     private DatabaseReference mDBMyRef;
     private ValueEventListener mValueListener;
     private ChildEventListener mEventListener;
@@ -103,7 +108,41 @@ public class UserManager {
             }
         };
 
+        mEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.getKey().equals(USER_KEY_LASTACTIONTIME)){
+                    mLastActionTime = (long) dataSnapshot.getValue();
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
         mDBMyRef.addListenerForSingleValueEvent(mValueListener);
+        mDBMyRef.addChildEventListener(mEventListener);
+    }
+
+    public void actionUser(){
+        mDBMyRef.child(USER_KEY_LASTACTIONTIME).setValue(ServerValue.TIMESTAMP);
     }
 
     public void udpateUser(HashMap<String, Object> _map){
@@ -127,12 +166,14 @@ public class UserManager {
     public void onResume(){
         if (mValueListener != null){
             mDBMyRef.addListenerForSingleValueEvent(mValueListener);
+            mDBMyRef.addChildEventListener(mEventListener);
         }
     }
 
     public void onPause(){
         if (mValueListener != null) {
             mDBMyRef.removeEventListener(mValueListener);
+            mDBMyRef.removeEventListener(mEventListener);
         }
     }
 

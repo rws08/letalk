@@ -17,15 +17,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 
 import kr.co.allright.letalk.R;
 import kr.co.allright.letalk.Supporter;
 import kr.co.allright.letalk.data.Room;
 import kr.co.allright.letalk.data.User;
+import kr.co.allright.letalk.etc.Utils;
 import kr.co.allright.letalk.manager.GeoManager;
 import kr.co.allright.letalk.manager.RoomManager;
 import kr.co.allright.letalk.manager.UserManager;
@@ -46,6 +52,7 @@ public class AllRoomsFragment extends Fragment {
     private RecyclerView.LayoutManager mManagerRecRooms;
 
     private ValueEventListener mValueELRooms;
+
     private ArrayList<Room> mArrayRoom;
 
     public static AllRoomsFragment getInstance(){
@@ -128,6 +135,7 @@ public class AllRoomsFragment extends Fragment {
                     }
                 }
 
+                Collections.sort(mArrayRoom, mComparator);
                 updateListView();
             }
 
@@ -137,6 +145,14 @@ public class AllRoomsFragment extends Fragment {
             }
         };
     }
+
+    private final static Comparator<Room> mComparator = new Comparator<Room>() {
+        @Override
+        public int compare(Room o1, Room o2) {
+            long comp = o2.createtime - o1.createtime;
+            return (int) comp;
+        }
+    };
 
     private void onResumeData(){
         if (mValueELRooms == null){
@@ -157,8 +173,10 @@ public class AllRoomsFragment extends Fragment {
     }
 
     private void onAllRooms(){
+        UserManager.getInstance().actionUser();
+
         DatabaseReference roomsRef = RoomManager.getInstance().getRoomsRef();
-        Query query = roomsRef.limitToFirst(100);
+        Query query = roomsRef.limitToLast(100);
 
         query.addListenerForSingleValueEvent(mValueELRooms);
     }
@@ -179,7 +197,7 @@ public class AllRoomsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            Room room = mArrayList.get(position);
+            final Room room = mArrayList.get(position);
 
             holder.mTvMessage.setText(room.title);
 
@@ -193,6 +211,7 @@ public class AllRoomsFragment extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
+                            String strTime = Utils.getDurationTime(room.createtime, UserManager.getInstance().mLastActionTime);
 
                             if (user.sex.equals(SEX_MAN)){
                                 holder.mTvName.setTextColor(Supporter.getColor(getContext(), R.color.man_text));
@@ -200,6 +219,9 @@ public class AllRoomsFragment extends Fragment {
                                 holder.mTvName.setTextColor(Supporter.getColor(getContext(), R.color.woman_text));
                             }
                             holder.mTvName.setText(user.name + "(" + user.age + ")");
+
+                            holder.mTvTime.setText(strTime);
+
 //                            holder.mTvRange
                         }
 
@@ -222,6 +244,7 @@ public class AllRoomsFragment extends Fragment {
         class ViewHolder extends RecyclerView.ViewHolder{
             private ImageView mImgProfile;
             private TextView mTvName;
+            private TextView mTvTime;
             private TextView mTvRange;
             private TextView mTvMessage;
 
@@ -229,6 +252,7 @@ public class AllRoomsFragment extends Fragment {
                 super(itemView);
                 mImgProfile = (ImageView) itemView.findViewById(R.id.img_profile);
                 mTvName = (TextView) itemView.findViewById(R.id.tv_name);
+                mTvTime = (TextView) itemView.findViewById(R.id.tv_time);
                 mTvRange = (TextView) itemView.findViewById(R.id.tv_range);
                 mTvMessage = (TextView) itemView.findViewById(R.id.tv_message);
             }
