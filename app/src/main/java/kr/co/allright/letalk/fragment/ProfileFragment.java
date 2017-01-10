@@ -193,7 +193,7 @@ public class ProfileFragment extends Fragment {
 
         DatabaseReference myRef = UserManager.getInstance().getMyRef();
         myRef.removeEventListener(mValueELUser);
-        myRef.addChildEventListener(mChildELUser);
+        myRef.removeEventListener(mChildELUser);
 
         DatabaseReference roomRef = RoomManager.getInstance().getMyRoomRef();
         roomRef.removeEventListener(mValueELRoom);

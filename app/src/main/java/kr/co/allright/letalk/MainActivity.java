@@ -1,5 +1,6 @@
 package kr.co.allright.letalk;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 200;
 
     public SignupDialog mSignupDl;
+    public ProgressDialog mDialog;
 
     private Firebase mFirebase;
     private GPSTracker mGps;
@@ -65,6 +67,21 @@ public class MainActivity extends AppCompatActivity {
         if (mSignupDl != null){
             mSignupDl.hide();
         }
+    }
+
+    public void showLoading(){
+        if (mDialog != null){
+            return;
+        }
+        mDialog = ProgressDialog.show(this, "", "잠시만 기다리세요.", true);
+    }
+
+    public void closeLoading(){
+        if (mDialog == null){
+            return;
+        }
+        mDialog.dismiss();
+        mDialog = null;
     }
 
     @Override
@@ -131,8 +148,10 @@ public class MainActivity extends AppCompatActivity {
                 showSignup();
             }
         }else{
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            if (!mGps.canGetLocation()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                }
             }
         }
     }

@@ -1,6 +1,8 @@
 package kr.co.allright.letalk.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -27,11 +29,13 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Objects;
 
+import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.R;
 import kr.co.allright.letalk.Supporter;
 import kr.co.allright.letalk.data.Room;
 import kr.co.allright.letalk.data.User;
 import kr.co.allright.letalk.etc.Utils;
+import kr.co.allright.letalk.manager.GPSTracker;
 import kr.co.allright.letalk.manager.GeoManager;
 import kr.co.allright.letalk.manager.RoomManager;
 import kr.co.allright.letalk.manager.UserManager;
@@ -91,6 +95,7 @@ public class AllRoomsFragment extends Fragment {
         mBtnAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MainActivity.getInstance().showLoading();
                 onAllRooms();
             }
         });
@@ -98,8 +103,8 @@ public class AllRoomsFragment extends Fragment {
         mBtn100.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: 거리별 조회 처리
-                GeoManager.getInstance().searchRange(10);
+                MainActivity.getInstance().showLoading();
+                GeoManager.getInstance().searchRange(100);
             }
         });
     }
@@ -116,6 +121,7 @@ public class AllRoomsFragment extends Fragment {
     }
 
     private void updateListView(){
+        MainActivity.getInstance().closeLoading();
         mAdapterRecRooms.notifyDataSetChanged();
     }
 
@@ -160,9 +166,11 @@ public class AllRoomsFragment extends Fragment {
         }
 
         DatabaseReference roomsRef = RoomManager.getInstance().getRoomsRef();
+        if (roomsRef != null){
 //        roomsRef.addValueEventListener(mValueELRooms);
-
-        onAllRooms();
+            MainActivity.getInstance().showLoading();
+            onAllRooms();
+        }
     }
 
     private void onPauseData(){
@@ -179,6 +187,41 @@ public class AllRoomsFragment extends Fragment {
         Query query = roomsRef.limitToLast(100);
 
         query.addListenerForSingleValueEvent(mValueELRooms);
+    }
+
+    public void onSearchRooms(){
+        mArrayRoom.clear();
+        ArrayList<String> arrRoomids = GeoManager.getInstance().mArrRoomids;
+        for (int i = 0; i < arrRoomids.size(); i++){
+            String roomid = arrRoomids.get(i);
+            DatabaseReference roomRef = RoomManager.getInstance().getRoomRefWithId(roomid);
+            roomRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Room room = dataSnapshot.getValue(Room.class);
+                    mArrayRoom.add(room);
+                    onEndSearchRooms();
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+
+    private void onEndSearchRooms(){
+        ArrayList<String> arrRoomids = GeoManager.getInstance().mArrRoomids;
+        if (arrRoomids.size() == mArrayRoom.size()){
+            for (Room room:mArrayRoom) {
+                if (room.visible == false){
+                    mArrayRoom.remove(room);
+                }
+            }
+            Collections.sort(mArrayRoom, mComparator);
+            updateListView();
+        }
     }
 
     class RoomsAdpater extends RecyclerView.Adapter<RoomsAdpater.ViewHolder>{
@@ -213,6 +256,17 @@ public class AllRoomsFragment extends Fragment {
                             User user = dataSnapshot.getValue(User.class);
                             String strTime = Utils.getDurationTime(room.createtime, UserManager.getInstance().mLastActionTime);
 
+                            Location myloc = GPSTracker.getInstance().getLocation();
+                            Location userloc = new Location("");
+                            userloc.setLatitude(user.lat);
+                            userloc.setLongitude(user.lon);
+                            float distanceInMeters = myloc.distanceTo(userloc);
+                            String sign = "m";
+                            if (distanceInMeters >= 1000){
+                                sign = "km";
+                                distanceInMeters /= 1000;
+                            }
+
                             if (user.sex.equals(SEX_MAN)){
                                 holder.mTvName.setTextColor(Supporter.getColor(getContext(), R.color.man_text));
                             }else {
@@ -222,7 +276,7 @@ public class AllRoomsFragment extends Fragment {
 
                             holder.mTvTime.setText(strTime);
 
-//                            holder.mTvRange
+                            holder.mTvRange.setText(String.format("%.01f %s", distanceInMeters, sign));
                         }
 
                         @Override

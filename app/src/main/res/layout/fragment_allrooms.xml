@@ -18,11 +18,11 @@
             android:layout_weight="1" />
 
         <Button
-            android:text="100K"
+            android:id="@+id/btn_100"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_100"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:text="100Km" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

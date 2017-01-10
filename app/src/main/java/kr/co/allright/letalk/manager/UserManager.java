@@ -34,6 +34,8 @@ public class UserManager {
     private static final String PREFS_DEVICE_ID = "device_id";
 
     private static final String USER_KEY_LASTACTIONTIME = "lastActionTime";
+    public static final String USER_KEY_MYROOMID = "myroomId";
+    public static final String USER_KEY_USERS = "users";
 
     private volatile static UUID mUniqId;
 
@@ -58,7 +60,7 @@ public class UserManager {
         mUser = new User();
 
         mDatabase = FirebaseDatabase.getInstance();
-        mDBUsersRef = mDatabase.getReference("users");
+        mDBUsersRef = mDatabase.getReference(USER_KEY_USERS);
 
         makeDeviceID();
     }
@@ -142,6 +144,9 @@ public class UserManager {
     }
 
     public void actionUser(){
+        if (mDBMyRef == null){
+            return;
+        }
         mDBMyRef.child(USER_KEY_LASTACTIONTIME).setValue(ServerValue.TIMESTAMP);
     }
 
