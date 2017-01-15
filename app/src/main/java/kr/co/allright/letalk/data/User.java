@@ -25,7 +25,7 @@ public class User {
     public String myroomTitle = "";
     public double pointMile = 0;
     public double pointBuy = 0;
-    public Map<String, Boolean> roomIds = new HashMap<>();
+    public Map<String, Boolean> myChatIds = new HashMap<>();
 
     public User() {
     }

@@ -14,7 +14,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -25,8 +28,13 @@ import kr.co.allright.letalk.data.User;
  */
 
 public class UserManager {
+    public interface UserManagerListener {
+        void onUserData(User _user);
+    }
+
     private static UserManager mInstance = null;
     private Context mContext;
+    private ArrayList<UserManagerListener> mArrListeners;
 
     public static final String PREFS_FILE = "user_info.xml";
     public static final String PREFS_LOGIN_ID = "login_id";
@@ -57,12 +65,30 @@ public class UserManager {
         mInstance = this;
 
         mContext = _context;
+        mArrListeners = new ArrayList<>();
         mUser = new User();
 
         mDatabase = FirebaseDatabase.getInstance();
         mDBUsersRef = mDatabase.getReference(USER_KEY_USERS);
 
         makeDeviceID();
+    }
+
+    public User getUserData(String _userid, @NotNull final UserManagerListener _listener){
+        DatabaseReference userRef = getUserRefWithId(_userid);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                _listener.onUserData(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return null;
     }
 
     public String getDeviceId() {
@@ -152,6 +178,10 @@ public class UserManager {
 
     public void udpateUser(HashMap<String, Object> _map){
         mDBMyRef.updateChildren(_map);
+    }
+
+    public void udpateUser(User _otherUser, HashMap<String, Object> _map){
+        mDBUsersRef.child(_otherUser.keyid).updateChildren(_map);
     }
 
     public void updateUserLocation(){

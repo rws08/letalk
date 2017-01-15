@@ -125,7 +125,8 @@ public class Firebase {
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
-                    //TODO: 로그인 실패 -> 로그인 화면으로 전환
+                    //TODO: 로그인 실패 -> 로그인 화면으로 전환 -> 확인 필요
+                    MainActivity.getInstance().showSignup();
                 }
                 // ...
             }

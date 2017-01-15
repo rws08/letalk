@@ -17,13 +17,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import kr.co.allright.letalk.data.User;
+import kr.co.allright.letalk.fragment.AllChatsFragment;
 import kr.co.allright.letalk.fragment.AllRoomsFragment;
 import kr.co.allright.letalk.fragment.ProfileFragment;
+import kr.co.allright.letalk.manager.ChatManager;
 import kr.co.allright.letalk.manager.Firebase;
 import kr.co.allright.letalk.manager.GPSTracker;
 import kr.co.allright.letalk.manager.GeoManager;
 import kr.co.allright.letalk.manager.RoomManager;
 import kr.co.allright.letalk.manager.UserManager;
+import kr.co.allright.letalk.views.SelectRoomDialog;
 import kr.co.allright.letalk.views.SignupDialog;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 200;
 
     public SignupDialog mSignupDl;
+    public SelectRoomDialog mSelectRoomDl;
     public ProgressDialog mDialog;
 
     private Firebase mFirebase;
@@ -44,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private GeoManager mGeoManager;
     private UserManager mUserManager;
     private RoomManager mRoomManager;
+    private ChatManager mChatManager;
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -84,6 +90,20 @@ public class MainActivity extends AppCompatActivity {
         mDialog = null;
     }
 
+    public void showSelectRoom(User _user){
+        if (_user == null) return;
+
+        mSelectRoomDl = new SelectRoomDialog(this);
+        mSelectRoomDl.show();
+        mSelectRoomDl.setUser(_user);
+    }
+
+    public void closeSelectRoom(){
+        if (mSelectRoomDl != null){
+            mSelectRoomDl.hide();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         mGeoManager = new GeoManager(this);
         mUserManager = new UserManager(this);
         mRoomManager = new RoomManager(this);
+        mChatManager = new ChatManager(this);
     }
 
     private void setUI(){
@@ -211,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = AllRoomsFragment.getInstance();
                     break;
                 case 1:
-                    fragment = new MainActivityFragment();
+                    fragment = AllChatsFragment.getInstance();
                     break;
                 case 2:{
                     fragment = ProfileFragment.getInstance();

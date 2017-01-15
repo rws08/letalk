@@ -1,6 +1,5 @@
 package kr.co.allright.letalk.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
@@ -19,15 +18,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Objects;
 
 import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.R;
@@ -214,9 +210,11 @@ public class AllRoomsFragment extends Fragment {
     private void onEndSearchRooms(){
         ArrayList<String> arrRoomids = GeoManager.getInstance().mArrRoomids;
         if (arrRoomids.size() == mArrayRoom.size()){
-            for (Room room:mArrayRoom) {
+            Iterator<Room> iter = mArrayRoom.iterator();
+            while (iter.hasNext()){
+                Room room = iter.next();
                 if (room.visible == false){
-                    mArrayRoom.remove(room);
+                    iter.remove();
                 }
             }
             Collections.sort(mArrayRoom, mComparator);
@@ -242,7 +240,15 @@ public class AllRoomsFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             final Room room = mArrayList.get(position);
 
-            holder.mTvMessage.setText(room.title);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.mUser.keyid.equals(UserManager.getInstance().mUser.keyid)){
+                        return;
+                    }
+                    MainActivity.getInstance().showSelectRoom(holder.mUser);
+                }
+            });
 
             Iterator<String> iter = room.userIds.keySet().iterator();
             while(iter.hasNext()) {
@@ -254,29 +260,7 @@ public class AllRoomsFragment extends Fragment {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
-                            String strTime = Utils.getDurationTime(room.createtime, UserManager.getInstance().mLastActionTime);
-
-                            Location myloc = GPSTracker.getInstance().getLocation();
-                            Location userloc = new Location("");
-                            userloc.setLatitude(user.lat);
-                            userloc.setLongitude(user.lon);
-                            float distanceInMeters = myloc.distanceTo(userloc);
-                            String sign = "m";
-                            if (distanceInMeters >= 1000){
-                                sign = "km";
-                                distanceInMeters /= 1000;
-                            }
-
-                            if (user.sex.equals(SEX_MAN)){
-                                holder.mTvName.setTextColor(Supporter.getColor(getContext(), R.color.man_text));
-                            }else {
-                                holder.mTvName.setTextColor(Supporter.getColor(getContext(), R.color.woman_text));
-                            }
-                            holder.mTvName.setText(user.name + "(" + user.age + ")");
-
-                            holder.mTvTime.setText(strTime);
-
-                            holder.mTvRange.setText(String.format("%.01f %s", distanceInMeters, sign));
+                            holder.setUI(user, room);
                         }
 
                         @Override
@@ -296,6 +280,8 @@ public class AllRoomsFragment extends Fragment {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder{
+            private User mUser;
+            private Room mRoom;
             private ImageView mImgProfile;
             private TextView mTvName;
             private TextView mTvTime;
@@ -309,6 +295,37 @@ public class AllRoomsFragment extends Fragment {
                 mTvTime = (TextView) itemView.findViewById(R.id.tv_time);
                 mTvRange = (TextView) itemView.findViewById(R.id.tv_range);
                 mTvMessage = (TextView) itemView.findViewById(R.id.tv_message);
+            }
+
+            public void setUI(User _user, Room _room){
+                mUser = _user;
+                mRoom = _room;
+
+                String strTime = Utils.getDurationTime(mRoom.createtime, UserManager.getInstance().mLastActionTime);
+
+                Location myloc = GPSTracker.getInstance().getLocation();
+                Location userloc = new Location("");
+                userloc.setLatitude(mUser.lat);
+                userloc.setLongitude(mUser.lon);
+                float distanceInMeters = myloc.distanceTo(userloc);
+                String sign = "m";
+                if (distanceInMeters >= 1000){
+                    sign = "km";
+                    distanceInMeters /= 1000;
+                }
+
+                if (mUser.sex.equals(SEX_MAN)){
+                    mTvName.setTextColor(Supporter.getColor(getContext(), R.color.man_text));
+                }else {
+                    mTvName.setTextColor(Supporter.getColor(getContext(), R.color.woman_text));
+                }
+                mTvName.setText(mUser.name + "(" + mUser.age + ")");
+
+                mTvTime.setText(strTime);
+
+                mTvRange.setText(String.format("%.01f %s", distanceInMeters, sign));
+
+                mTvMessage.setText(mRoom.title);
             }
         }
     }
