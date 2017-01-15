@@ -95,6 +95,7 @@ public class ChatManager {
             });
         }
 
+        UserManager.getInstance().mUser.myChatIds.put(keyid, false);
         _chat.visible = false;
 
         chatsRef.setValue(_chat);
