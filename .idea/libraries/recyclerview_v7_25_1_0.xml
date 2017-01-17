@@ -1,15 +1,12 @@
 <component name="libraryTable">
   <library name="recyclerview-v7-25.1.0">
-    <ANNOTATIONS>
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/25.1.0/annotations.zip!/" />
-      <root url="jar://$USER_HOME$/.android/build-cache/f3ba423d8629f7dc6065b9d1983fcf859eb05398/output/annotations.zip!/" />
-    </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/f3ba423d8629f7dc6065b9d1983fcf859eb05398/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/f3ba423d8629f7dc6065b9d1983fcf859eb05398/output/res" />
+      <root url="file://$USER_HOME$/.android/build-cache/8a6b9b485ab39a63d37b5f0d8a87e412025f09f5/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/8a6b9b485ab39a63d37b5f0d8a87e412025f09f5/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../sdk-ios/extras/android/m2repository/com/android/support/recyclerview-v7/25.1.0/recyclerview-v7-25.1.0-sources.jar!/" />
       <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/recyclerview-v7/25.1.0/recyclerview-v7-25.1.0-sources.jar!/" />
     </SOURCES>
   </library>
