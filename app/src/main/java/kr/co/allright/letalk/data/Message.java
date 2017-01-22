@@ -10,12 +10,16 @@ public class Message {
 
     public String keyid;
     public String userid;
-    public String roomid;
+    public String chatid;
     public String contenttype;
     public String contents;
     public int unreadcount;
     public long createtime = 0;
 
     public Message() {
+    }
+
+    public Message(String keyid) {
+        this.keyid = keyid;
     }
 }

@@ -6,11 +6,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import kr.co.allright.letalk.data.Chat;
+import kr.co.allright.letalk.data.Message;
 import kr.co.allright.letalk.data.User;
 
 /**
@@ -18,11 +22,18 @@ import kr.co.allright.letalk.data.User;
  */
 
 public class ChatManager {
+    public interface ChatManagerListener {
+        void onChatData(Chat _chat);
+        void onMessageData(Message _message);
+    }
+
     private static ChatManager mInstance = null;
     private Context mContext;
+    private ArrayList<ChatManagerListener> mArrListeners;
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mDBChatsRef;
+    private DatabaseReference mDBMessagesRef;
 
     public static ChatManager getInstance(){
         return mInstance;
@@ -32,17 +43,35 @@ public class ChatManager {
         mInstance = this;
 
         mContext = _context;
+        mArrListeners = new ArrayList<>();
 
         mDatabase = FirebaseDatabase.getInstance();
         mDBChatsRef = mDatabase.getReference("chats");
+        mDBMessagesRef = mDatabase.getReference("messages");
     }
 
-    public DatabaseReference getRoomRefWithId(String _keyid){
-        DatabaseReference roomRef = mDBChatsRef.child(_keyid);
-        return roomRef;
+    public void makeNewMessage(Chat _chat, Message _message, @NotNull final ChatManagerListener _listener){
+        mArrListeners.add(_listener);
+
+        DatabaseReference messagesRef = mDBMessagesRef.child(_chat.keyid).push();
+        String keyid = messagesRef.getKey();
+        User user = UserManager.getInstance().mUser;
+
+        _message.keyid = keyid;
+        _message.userid = user.keyid;
+        _message.chatid = _chat.keyid;
+        _message.unreadcount = _chat.userIds.size() - 1;
+
+        messagesRef.setValue(_message);
+        messagesRef.child("createtime").setValue(ServerValue.TIMESTAMP);
+
+        _listener.onMessageData(_message);
+        mArrListeners.remove(_listener);
     }
 
-    public void makeNewChat(User _otherUser){
+    public void makeNewChat(User _otherUser, @NotNull final ChatManagerListener _listener){
+        mArrListeners.add(_listener);
+
         DatabaseReference chatsRef = mDBChatsRef.push();
         String keyid = chatsRef.getKey();
         User user = UserManager.getInstance().mUser;
@@ -68,9 +97,13 @@ public class ChatManager {
         chat.visible = true;
         chat.userIds.put(user.keyid, true);
         chat.userIds.put(otherUser.keyid, true);
+        chat.userCount = chat.userIds.size();
 
         chatsRef.setValue(chat);
         chatsRef.child("createtime").setValue(ServerValue.TIMESTAMP);
+
+        _listener.onChatData(chat);
+        mArrListeners.remove(_listener);
     }
 
     public void removeChat(Chat _chat){

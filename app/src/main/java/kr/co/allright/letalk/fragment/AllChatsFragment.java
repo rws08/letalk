@@ -206,9 +206,11 @@ public class AllChatsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     //// TODO: 2017. 1. 15. 채팅방 들어가기
-                    MainActivity.getInstance().showLoading();
-                    ChatManager.getInstance().removeChat(chat);
-                    onAllRooms();
+//                    MainActivity.getInstance().showLoading();
+//                    ChatManager.getInstance().removeChat(chat);
+//                    onAllRooms();
+
+                    MainActivity.getInstance().showChat(chat);
                 }
             });
 
@@ -274,6 +276,9 @@ public class AllChatsFragment extends Fragment {
                 if (distanceInMeters >= 1000){
                     sign = "km";
                     distanceInMeters /= 1000;
+                }else {
+                    sign = "km";
+                    distanceInMeters = 1;
                 }
 
                 if (mUser.sex.equals(SEX_MAN)){
@@ -285,7 +290,13 @@ public class AllChatsFragment extends Fragment {
 
                 mTvTime.setText(strTime);
 
-                mTvRange.setText(String.format("%.01f %s", distanceInMeters, sign));
+                if (distanceInMeters < 13177) {
+                    mTvRange.setText(String.format("%.01f %s", distanceInMeters, sign));
+                }else if(distanceInMeters <= 1){
+                    mTvRange.setText(String.format("1 %s", sign));
+                }else{
+                    mTvRange.setText(String.format("?? %s", sign));
+                }
 
                 mTvMessage.setText(mChat.lastMessage);
             }

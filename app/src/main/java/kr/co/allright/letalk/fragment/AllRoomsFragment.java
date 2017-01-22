@@ -47,6 +47,8 @@ public class AllRoomsFragment extends Fragment {
 
     private Button mBtnAll;
     private Button mBtn100;
+    private Button mBtn50;
+    private Button mBtn10;
     private RecyclerView mRecRooms;
     private RecyclerView.Adapter mAdapterRecRooms;
     private RecyclerView.LayoutManager mManagerRecRooms;
@@ -74,6 +76,8 @@ public class AllRoomsFragment extends Fragment {
 
         mBtnAll = (Button) view.findViewById(R.id.btn_all);
         mBtn100 = (Button) view.findViewById(R.id.btn_100);
+        mBtn50 = (Button) view.findViewById(R.id.btn_50);
+        mBtn10 = (Button) view.findViewById(R.id.btn_10);
         mRecRooms = (RecyclerView) view.findViewById(R.id.rec_rooms);
 
         mManagerRecRooms = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -101,6 +105,22 @@ public class AllRoomsFragment extends Fragment {
             public void onClick(View view) {
                 MainActivity.getInstance().showLoading();
                 GeoManager.getInstance().searchRange(100);
+            }
+        });
+
+        mBtn50.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.getInstance().showLoading();
+                GeoManager.getInstance().searchRange(50);
+            }
+        });
+
+        mBtn10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.getInstance().showLoading();
+                GeoManager.getInstance().searchRange(10);
             }
         });
     }
@@ -312,6 +332,9 @@ public class AllRoomsFragment extends Fragment {
                 if (distanceInMeters >= 1000){
                     sign = "km";
                     distanceInMeters /= 1000;
+                }else {
+                    sign = "km";
+                    distanceInMeters = 1;
                 }
 
                 if (mUser.sex.equals(SEX_MAN)){
@@ -323,7 +346,13 @@ public class AllRoomsFragment extends Fragment {
 
                 mTvTime.setText(strTime);
 
-                mTvRange.setText(String.format("%.01f %s", distanceInMeters, sign));
+                if (distanceInMeters < 13177) {
+                    mTvRange.setText(String.format("%.01f %s", distanceInMeters, sign));
+                }else if(distanceInMeters <= 1){
+                    mTvRange.setText(String.format("1 %s", sign));
+                }else{
+                    mTvRange.setText(String.format("?? %s", sign));
+                }
 
                 mTvMessage.setText(mRoom.title);
             }

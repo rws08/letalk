@@ -72,6 +72,7 @@ public class RoomManager {
 
     public void udpateMyRoom(HashMap<String, Object> _map){
         getMyRoomRef().updateChildren(_map);
+        getMyRoomRef().child("createtime").setValue(ServerValue.TIMESTAMP);
     }
 
     public void onResume(){

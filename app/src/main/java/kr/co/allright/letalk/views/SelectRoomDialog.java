@@ -7,8 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.R;
 import kr.co.allright.letalk.Supporter;
+import kr.co.allright.letalk.data.Chat;
+import kr.co.allright.letalk.data.Message;
 import kr.co.allright.letalk.data.User;
 import kr.co.allright.letalk.manager.ChatManager;
 
@@ -68,6 +71,16 @@ public class SelectRoomDialog extends Dialog {
     }
 
     private void onStartChat(){
-        ChatManager.getInstance().makeNewChat(mUser);
+        ChatManager.getInstance().makeNewChat(mUser, new ChatManager.ChatManagerListener() {
+            @Override
+            public void onChatData(Chat _chat) {
+                MainActivity.getInstance().closeSelectRoom();
+            }
+
+            @Override
+            public void onMessageData(Message _message) {
+
+            }
+        });
     }
 }

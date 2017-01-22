@@ -75,12 +75,14 @@ public class UserManager {
     }
 
     public User getUserData(String _userid, @NotNull final UserManagerListener _listener){
+        mArrListeners.add(_listener);
         DatabaseReference userRef = getUserRefWithId(_userid);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 _listener.onUserData(user);
+                mArrListeners.remove(_listener);
             }
 
             @Override

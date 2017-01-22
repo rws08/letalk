@@ -17,6 +17,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
+import org.jetbrains.annotations.NotNull;
+
+import kr.co.allright.letalk.data.Chat;
 import kr.co.allright.letalk.data.User;
 import kr.co.allright.letalk.fragment.AllChatsFragment;
 import kr.co.allright.letalk.fragment.AllRoomsFragment;
@@ -27,6 +34,7 @@ import kr.co.allright.letalk.manager.GPSTracker;
 import kr.co.allright.letalk.manager.GeoManager;
 import kr.co.allright.letalk.manager.RoomManager;
 import kr.co.allright.letalk.manager.UserManager;
+import kr.co.allright.letalk.views.ChatDialog;
 import kr.co.allright.letalk.views.SelectRoomDialog;
 import kr.co.allright.letalk.views.SignupDialog;
 
@@ -42,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     public SignupDialog mSignupDl;
     public SelectRoomDialog mSelectRoomDl;
+    public ChatDialog mChatDl;
     public ProgressDialog mDialog;
 
     private Firebase mFirebase;
@@ -65,13 +74,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showSignup(){
+        if (mSignupDl != null) return;
+
         mSignupDl = new SignupDialog(this);
         mSignupDl.show();
     }
 
     public void closeSignup(){
         if (mSignupDl != null){
-            mSignupDl.hide();
+            mSignupDl.dismiss();
+            mSignupDl = null;
         }
     }
 
@@ -90,8 +102,23 @@ public class MainActivity extends AppCompatActivity {
         mDialog = null;
     }
 
-    public void showSelectRoom(User _user){
-        if (_user == null) return;
+    public void showChat(@NotNull Chat _chat){
+        if (mSelectRoomDl != null) return;
+
+        mChatDl = new ChatDialog(this);
+        mChatDl.show();
+        mChatDl.setChat(_chat);
+    }
+
+    public void closeChat(){
+        if (mChatDl != null){
+            mChatDl.dismiss();
+            mChatDl = null;
+        }
+    }
+
+    public void showSelectRoom(@NotNull User _user){
+        if (mSelectRoomDl != null) return;
 
         mSelectRoomDl = new SelectRoomDialog(this);
         mSelectRoomDl.show();
@@ -100,7 +127,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void closeSelectRoom(){
         if (mSelectRoomDl != null){
-            mSelectRoomDl.hide();
+            mSelectRoomDl.dismiss();
+            mSelectRoomDl = null;
         }
     }
 
@@ -108,6 +136,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(getApplicationContext(), getString(R.string.banner_ad_unit_id_base));
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+//        AdRequest adRequest = new AdRequest.Builder().addTestDevice("test").build();
+        mAdView.loadAd(adRequest);
 
         createManager();
 
@@ -205,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

@@ -23,6 +23,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="100Km" />
+
+        <Button
+            android:id="@+id/btn_50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="50Km" />
+
+        <Button
+            android:id="@+id/btn_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="10Km" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

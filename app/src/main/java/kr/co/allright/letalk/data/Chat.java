@@ -16,7 +16,7 @@ public class Chat {
     public long createtime = 0;
     public int userCount = 1;
     public Map<String, Boolean> userIds = new HashMap<>();
-    public List<Message> messages = new ArrayList<>();
+    public List<Message> messagesIds = new ArrayList<>();
 
     public Chat() {
     }

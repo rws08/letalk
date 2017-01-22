@@ -12,10 +12,10 @@
         android:gravity="center_vertical">
 
         <ImageButton
+            android:id="@+id/btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
-            android:id="@+id/btn_close" />
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -42,9 +42,10 @@
         android:id="@+id/rec_messages"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:layout_weight="1" />
+        tools:listitem="@layout/cardview_message" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -54,10 +55,10 @@
         android:gravity="center_vertical">
 
         <ImageButton
+            android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_add"
-            android:id="@+id/btn_add" />
+            app:srcCompat="@android:drawable/ic_menu_add" />
 
         <EditText
             android:layout_width="wrap_content"
