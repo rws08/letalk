@@ -22,4 +22,13 @@ public class Message {
     public Message(String keyid) {
         this.keyid = keyid;
     }
+
+    public void updateData(Message _message){
+        userid = _message.userid;
+        chatid = _message.userid;
+        contenttype = _message.contenttype;
+        contents = _message.contents;
+        unreadcount = _message.unreadcount;
+        createtime = _message.createtime;
+    }
 }

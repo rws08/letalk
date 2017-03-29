@@ -5,9 +5,9 @@ import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +17,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -28,8 +30,10 @@ import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.R;
 import kr.co.allright.letalk.Supporter;
 import kr.co.allright.letalk.data.Chat;
+import kr.co.allright.letalk.data.Message;
 import kr.co.allright.letalk.data.User;
 import kr.co.allright.letalk.etc.Utils;
+import kr.co.allright.letalk.manager.ChatManager;
 import kr.co.allright.letalk.manager.GPSTracker;
 import kr.co.allright.letalk.manager.UserManager;
 
@@ -54,6 +58,12 @@ public class ChatDialog extends Dialog {
     private EditText mEtMessage;
     private Button mBtnSend;
 
+    private DatabaseReference mDBMessagesRef;
+    private ValueEventListener mMessagesValueListener;
+    private ChildEventListener mMessagesEventListener;
+
+    private ArrayList<Message> mArrayMessage;
+
     public ChatDialog(Context context) {
         super(context);
         setCanceledOnTouchOutside(false);
@@ -65,11 +75,15 @@ public class ChatDialog extends Dialog {
         setContentView(R.layout.dialog_chat);
         getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 
+        mArrayMessage = new ArrayList<>();
+
         mBtnClose = (ImageButton) findViewById(R.id.btn_close);
         mTvName = (TextView) findViewById(R.id.tv_name);
         mTvRange = (TextView) findViewById(R.id.tv_range);
 
         mRecMessages = (RecyclerView) findViewById(R.id.rec_messages);
+        mManagerRecMessages = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        mAdapterRecMessages = new MessageAdpater(mArrayMessage, getContext());
 
         mBtnPlus = (ImageButton) findViewById(R.id.btn_add);
         mEtMessage = (EditText) findViewById(R.id.et_message);
@@ -82,11 +96,21 @@ public class ChatDialog extends Dialog {
     public void show() {
         super.show();
 
+        UserManager.getInstance().actionUser();
         mEtMessage.setText("");
+    }
+
+    @Override
+    public void dismiss() {
+        UserManager.getInstance().actionUser();
+        mDBMessagesRef.removeEventListener(mMessagesEventListener);
+        mDBMessagesRef.removeEventListener(mMessagesValueListener);
+        super.dismiss();
     }
 
     public void setChat(Chat _chat){
         mChat = _chat;
+        mArrayMessage.clear();
 
         updateOtherUser();
 
@@ -94,7 +118,79 @@ public class ChatDialog extends Dialog {
     }
 
     private void setMessage(){
+        mMessagesValueListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> iter = dataSnapshot.getChildren().iterator();
+                while(iter.hasNext()) {
+                    DataSnapshot messageSnap = iter.next();
+                    Message message = messageSnap.getValue(Message.class);
+                    mArrayMessage.add(message);
+                }
 
+                mAdapterRecMessages.notifyDataSetChanged();
+                mRecMessages.scrollToPosition(mArrayMessage.size() - 1);
+
+                mDBMessagesRef.addChildEventListener(mMessagesEventListener);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        mMessagesEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                boolean find = false;
+                for (int i = mArrayMessage.size() - 1; i >= 0; i--){
+                    Message message = mArrayMessage.get(i);
+                    if (message.keyid.equals(dataSnapshot.getKey())){
+                        find = true;
+                        break;
+                    }
+                }
+
+                if (find == false){
+                    Message message = dataSnapshot.getValue(Message.class);
+                    mArrayMessage.add(message);
+                    mAdapterRecMessages.notifyDataSetChanged();
+                    mRecMessages.scrollToPosition(mArrayMessage.size() - 1);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                for (int i = mArrayMessage.size() - 1; i >= 0; i--){
+                    Message message = mArrayMessage.get(i);
+                    if (message.keyid.equals(dataSnapshot.getKey())){
+                        Message newmessage = dataSnapshot.getValue(Message.class);
+                        message.updateData(newmessage);
+                        mAdapterRecMessages.notifyItemChanged(i);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        mDBMessagesRef = ChatManager.getInstance().getMessagesRef(mChat);
+        mDBMessagesRef.addListenerForSingleValueEvent(mMessagesValueListener);
     }
 
     private void updateOtherUser(){
@@ -154,7 +250,21 @@ public class ChatDialog extends Dialog {
         mBtnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Message message = new Message();
+                message.contenttype = Message.CONTENTTYPE_TEXT;
+                message.contents = mEtMessage.getText().toString();
+                UserManager.getInstance().actionUser();
+                ChatManager.getInstance().makeNewMessage(mChat, message, new ChatManager.ChatManagerListener() {
+                    @Override
+                    public void onChatData(Chat _chat) {
 
+                    }
+
+                    @Override
+                    public void onMessageData(Message _message) {
+                        mEtMessage.setText("");
+                    }
+                });
             }
         });
 
@@ -178,13 +288,16 @@ public class ChatDialog extends Dialog {
                 }
             }
         });
+
+        mRecMessages.setLayoutManager(mManagerRecMessages);
+        mRecMessages.setAdapter(mAdapterRecMessages);
     }
 
     class MessageAdpater extends RecyclerView.Adapter<ChatDialog.MessageAdpater.ViewHolder>{
         private Context mContext;
-        private ArrayList<Chat> mArrayList;
+        private ArrayList<Message> mArrayList;
 
-        public MessageAdpater(ArrayList<Chat> _ArrayList, Context _Context) {
+        public MessageAdpater(ArrayList<Message> _ArrayList, Context _Context) {
             mArrayList = _ArrayList;
             mContext = _Context;
         }
@@ -196,28 +309,21 @@ public class ChatDialog extends Dialog {
 
         @Override
         public void onBindViewHolder(final ChatDialog.MessageAdpater.ViewHolder holder, int position) {
-            final Chat chat = mArrayList.get(position);
+            final Message message = mArrayList.get(position);
 
-            Iterator<String> iter = chat.userIds.keySet().iterator();
-            while(iter.hasNext()) {
-                String key = iter.next();
-                boolean value = chat.userIds.get(key);
-                Log.d("fureun", "key : " + key + ", value : " + value);
-                if (value){
-                    UserManager.getInstance().getUserRefWithId(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            User user = dataSnapshot.getValue(User.class);
-                            holder.setUI(user, chat);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+            String key = message.userid;
+            UserManager.getInstance().getUserRefWithId(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    holder.setUI(user, message);
                 }
-            }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
 
         @Override
@@ -229,7 +335,7 @@ public class ChatDialog extends Dialog {
 
         class ViewHolder extends RecyclerView.ViewHolder{
             private User mUser;
-            private Chat mChat;
+            private Message mMessage;
 
             private TextView mTvMessage;
             private TextView mTvTime;
@@ -240,13 +346,13 @@ public class ChatDialog extends Dialog {
                 mTvTime = (TextView) itemView.findViewById(R.id.tv_time);
             }
 
-            public void setUI(User _user, Chat _chat){
+            public void setUI(User _user, Message _message){
                 mUser = _user;
-                mChat = _chat;
+                mMessage = _message;
 
-                String strTime = Utils.getDurationTime(mChat.createtime, UserManager.getInstance().mLastActionTime);
+                String strTime = Utils.getDurationTime(mMessage.createtime, UserManager.getInstance().mLastActionTime);
 
-                mTvMessage.setText(mChat.lastMessage);
+                mTvMessage.setText(mMessage.contents);
 
                 mTvTime.setText(strTime);
             }

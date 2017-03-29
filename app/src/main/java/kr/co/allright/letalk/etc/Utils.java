@@ -1,7 +1,5 @@
 package kr.co.allright.letalk.etc;
 
-import kr.co.allright.letalk.manager.UserManager;
-
 /**
  * Created by rws on 2017. 1. 9..
  */
@@ -39,6 +37,10 @@ public class Utils {
         }else{
             // 연처리
             strTime = time / TIME_YEAR + "년전";
+        }
+
+        if (_befortime == 0){
+            strTime = "-";
         }
         return strTime;
     }

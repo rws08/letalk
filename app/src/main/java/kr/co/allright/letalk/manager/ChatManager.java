@@ -2,9 +2,11 @@ package kr.co.allright.letalk.manager;
 
 import android.content.Context;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,6 +36,9 @@ public class ChatManager {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mDBChatsRef;
     private DatabaseReference mDBMessagesRef;
+
+    private ValueEventListener mMessagesValueListener;
+    private ChildEventListener mMessagesEventListener;
 
     public static ChatManager getInstance(){
         return mInstance;
@@ -67,6 +72,11 @@ public class ChatManager {
 
         _listener.onMessageData(_message);
         mArrListeners.remove(_listener);
+    }
+
+    public DatabaseReference getMessagesRef(Chat _chat){
+        DatabaseReference messagesRef = mDBMessagesRef.child(_chat.keyid);
+        return messagesRef;
     }
 
     public void makeNewChat(User _otherUser, @NotNull final ChatManagerListener _listener){
