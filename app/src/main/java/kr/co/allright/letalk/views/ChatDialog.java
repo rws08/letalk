@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
@@ -155,6 +156,7 @@ public class ChatDialog extends Dialog {
                 if (find == false){
                     Message message = dataSnapshot.getValue(Message.class);
                     mArrayMessage.add(message);
+                    UserManager.getInstance().actionUser();
                     mAdapterRecMessages.notifyDataSetChanged();
                     mRecMessages.scrollToPosition(mArrayMessage.size() - 1);
                 }
@@ -294,6 +296,8 @@ public class ChatDialog extends Dialog {
     }
 
     class MessageAdpater extends RecyclerView.Adapter<ChatDialog.MessageAdpater.ViewHolder>{
+        private static final int TYPE_SELF = 10;
+        private static final int TYPE_OTHER = 20;
         private Context mContext;
         private ArrayList<Message> mArrayList;
 
@@ -305,6 +309,16 @@ public class ChatDialog extends Dialog {
         @Override
         public int getItemCount() {
             return mArrayList.size();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            final Message message = mArrayList.get(position);
+            if (message.userid.equals(UserManager.mUser.keyid)){
+                return TYPE_SELF;
+            }else{
+                return TYPE_OTHER;
+            }
         }
 
         @Override
@@ -328,20 +342,28 @@ public class ChatDialog extends Dialog {
 
         @Override
         public ChatDialog.MessageAdpater.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_message, parent, false);
-            ChatDialog.MessageAdpater.ViewHolder holder = new ChatDialog.MessageAdpater.ViewHolder(v);
-            return holder;
+            if (viewType == TYPE_SELF) {
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_message, parent, false);
+                ChatDialog.MessageAdpater.ViewHolder holder = new ChatDialog.MessageAdpater.ViewHolder(v);
+                return holder;
+            }else{
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_message_other, parent, false);
+                ChatDialog.MessageAdpater.ViewHolder holder = new ChatDialog.MessageAdpater.ViewHolder(v);
+                return holder;
+            }
         }
 
         class ViewHolder extends RecyclerView.ViewHolder{
             private User mUser;
             private Message mMessage;
 
+            private CardView mLayMain;
             private TextView mTvMessage;
             private TextView mTvTime;
 
             public ViewHolder(View itemView) {
                 super(itemView);
+                mLayMain = (CardView) itemView.findViewById(R.id.cv_main);
                 mTvMessage = (TextView) itemView.findViewById(R.id.tv_message);
                 mTvTime = (TextView) itemView.findViewById(R.id.tv_time);
             }

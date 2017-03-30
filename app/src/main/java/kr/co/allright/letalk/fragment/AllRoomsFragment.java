@@ -182,7 +182,7 @@ public class AllRoomsFragment extends Fragment {
         }
 
         DatabaseReference roomsRef = RoomManager.getInstance().getRoomsRef();
-        if (roomsRef != null){
+        if (roomsRef != null && UserManager.getInstance().isLoigin()){
 //        roomsRef.addValueEventListener(mValueELRooms);
             MainActivity.getInstance().showLoading();
             onAllRooms();

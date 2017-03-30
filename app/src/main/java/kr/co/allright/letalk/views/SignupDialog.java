@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.R;
 import kr.co.allright.letalk.Supporter;
 import kr.co.allright.letalk.manager.UserManager;
@@ -68,6 +69,8 @@ public class SignupDialog extends Dialog {
         mBtnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MainActivity.getInstance().showLoading();
+
                 String email = mEtEmail.getText().toString();
                 String name = mEtName.getText().toString();
                 String age = mEtAge.getText().toString();

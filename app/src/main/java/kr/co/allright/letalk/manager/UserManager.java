@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.firebase.geofire.GeoLocation;
 import com.google.firebase.database.ChildEventListener;
@@ -21,7 +22,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.data.User;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by MacPro on 2017. 1. 3..
@@ -97,6 +101,13 @@ public class UserManager {
         return mUniqId.toString();
     }
 
+    public boolean isLoigin(){
+        if (mUser.loginId != null && mUser.loginId.length() > 0){
+            return true;
+        }
+        return false;
+    }
+
     public void onSignUp(String _email, String _name, String _age, String _sex, String _roomTitle) {
         String loginId = _email + "-" + mUniqId.toString();
 
@@ -130,6 +141,17 @@ public class UserManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mUser = dataSnapshot.getValue(User.class);
+
+                if (mUser.loginId == null){
+                    // 유저정보 지워짐
+                    Log.d(TAG, "UserManager:setMyRef");
+                    //TODO: 로그인 실패 -> 로그인 화면으로 전환 -> 확인 필요
+                    MainActivity.getInstance().showSignup();
+                    MainActivity.getInstance().closeLoading();
+                }else{
+                    MainActivity.getInstance().onUpdateUI();
+                    MainActivity.getInstance().closeLoading();
+                }
             }
 
             @Override

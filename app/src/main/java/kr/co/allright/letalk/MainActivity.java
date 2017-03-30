@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
 
         mAdapter = new PagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mAdapter);
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -187,6 +187,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void onUpdateUI(){
+        if(mViewPager.getAdapter() == null) {
+            mViewPager.setAdapter(mAdapter);
+        }
     }
 
     private void checkNewApp(){

@@ -67,6 +67,7 @@ public class Firebase {
                 }
 
                 MainActivity.getInstance().closeSignup();
+                MainActivity.getInstance().closeLoading();
             }
         });
     }
@@ -118,6 +119,7 @@ public class Firebase {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    MainActivity.getInstance().showLoading();
                     // User is signed in
                     setDatabse(user);
                     UserManager.getInstance().updateUserLocation();
