@@ -5,6 +5,8 @@ import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
+import kr.co.allright.letalk.manager.UserManager;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -21,5 +23,6 @@ public class FbInstanceIDService extends FirebaseInstanceIdService {
         super.onTokenRefresh();
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
+        UserManager.getInstance().updateUserTokenId(refreshedToken);
     }
 }

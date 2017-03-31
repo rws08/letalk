@@ -13,6 +13,7 @@ public class User {
 
     public String keyid;
     public String loginId;
+    public String tokenId;
     public String email;
     public String name = "";
     public int age = 0;

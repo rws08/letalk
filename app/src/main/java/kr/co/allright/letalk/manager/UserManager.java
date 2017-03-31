@@ -222,6 +222,13 @@ public class UserManager {
         mDBMyRef.child("logintime").setValue(ServerValue.TIMESTAMP);
     }
 
+    public void updateUserTokenId(String _tokenID){
+        if (_tokenID == null || mDBMyRef == null){
+            return;
+        }
+        mDBMyRef.child("tokenId").setValue(_tokenID);
+    }
+
     public void onResume(){
         if (mValueListener != null){
             mDBMyRef.addListenerForSingleValueEvent(mValueListener);

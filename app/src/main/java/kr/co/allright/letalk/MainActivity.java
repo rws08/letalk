@@ -33,6 +33,7 @@ import kr.co.allright.letalk.manager.Firebase;
 import kr.co.allright.letalk.manager.GPSTracker;
 import kr.co.allright.letalk.manager.GeoManager;
 import kr.co.allright.letalk.manager.RoomManager;
+import kr.co.allright.letalk.manager.ServerBManager;
 import kr.co.allright.letalk.manager.UserManager;
 import kr.co.allright.letalk.views.ChatDialog;
 import kr.co.allright.letalk.views.SelectRoomDialog;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Firebase mFirebase;
     private GPSTracker mGps;
+    private ServerBManager mServerManager;
     private GeoManager mGeoManager;
     private UserManager mUserManager;
     private RoomManager mRoomManager;
@@ -160,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
     private void createManager(){
         mGps = new GPSTracker(this);
         mFirebase = new Firebase(this);
+        mServerManager = new ServerBManager(this);
         mGeoManager = new GeoManager(this);
         mUserManager = new UserManager(this);
         mRoomManager = new RoomManager(this);

@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.data.User;
@@ -122,8 +123,12 @@ public class Firebase {
                     MainActivity.getInstance().showLoading();
                     // User is signed in
                     setDatabse(user);
+
+                    String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
                     UserManager.getInstance().updateUserLocation();
                     UserManager.getInstance().updateUserLoginTime();
+                    UserManager.getInstance().updateUserTokenId(refreshedToken);
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");

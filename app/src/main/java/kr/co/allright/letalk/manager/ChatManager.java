@@ -2,6 +2,8 @@ package kr.co.allright.letalk.manager;
 
 import android.content.Context;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -9,6 +11,8 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import kr.co.allright.letalk.data.Chat;
+import kr.co.allright.letalk.data.JsonObjectRequest;
 import kr.co.allright.letalk.data.Message;
 import kr.co.allright.letalk.data.User;
 
@@ -55,6 +60,11 @@ public class ChatManager {
         mDBMessagesRef = mDatabase.getReference("messages");
     }
 
+    public DatabaseReference getMessagesRef(Chat _chat){
+        DatabaseReference messagesRef = mDBMessagesRef.child(_chat.keyid);
+        return messagesRef;
+    }
+
     public void makeNewMessage(Chat _chat, Message _message, @NotNull final ChatManagerListener _listener){
         mArrListeners.add(_listener);
 
@@ -72,11 +82,54 @@ public class ChatManager {
 
         _listener.onMessageData(_message);
         mArrListeners.remove(_listener);
+
+        Iterator<String> iter = _chat.userIds.keySet().iterator();
+        while(iter.hasNext()) {
+            String userId = iter.next();
+            if (!userId.equals(UserManager.getInstance().mUser.keyid)) {
+                UserManager.getInstance().getUserData(userId, new UserManager.UserManagerListener() {
+                    @Override
+                    public void onUserData(User _user) {
+                        User otherUser = _user;
+                        requestNewMessagePush(otherUser);
+                    }
+                });
+            }
+        }
     }
 
-    public DatabaseReference getMessagesRef(Chat _chat){
-        DatabaseReference messagesRef = mDBMessagesRef.child(_chat.keyid);
-        return messagesRef;
+    private static void requestNewMessagePush(User _user){
+        String url = "https://fcm.googleapis.com/fcm/send";
+        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonNoti = new JSONObject();
+        JsonObjectRequest request = null;
+        try {
+            jsonNoti.put("title", "new Message");
+            jsonNoti.put("body", "New Message");
+
+            jsonObject.put("to", _user.tokenId);
+            jsonObject.put("notification", jsonNoti);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        request = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        ServerBManager.getInstance().addToRequestQueue(request);
+    }
+
+    private static void responseStoreStatus(JSONObject jsonObj) throws JSONException {
+
     }
 
     public void makeNewChat(User _otherUser, @NotNull final ChatManagerListener _listener){
