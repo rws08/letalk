@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -264,6 +265,7 @@ public class AllRoomsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (holder.mUser.keyid.equals(UserManager.getInstance().mUser.keyid)){
+                        Toast.makeText(getContext(), "당신의 방입니다.", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     MainActivity.getInstance().showSelectRoom(holder.mUser);

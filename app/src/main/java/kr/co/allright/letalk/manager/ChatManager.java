@@ -5,6 +5,8 @@ import android.content.Context;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
@@ -135,38 +137,7 @@ public class ChatManager {
     public void makeNewChat(User _otherUser, @NotNull final ChatManagerListener _listener){
         mArrListeners.add(_listener);
 
-        DatabaseReference chatsRef = mDBChatsRef.push();
-        String keyid = chatsRef.getKey();
-        User user = UserManager.getInstance().mUser;
-        User otherUser = _otherUser;
-
-        // 내정보 업데이트
-        Map<String, Boolean> chatsMap = user.myChatIds;
-        chatsMap.put(keyid, true);
-
-        HashMap<String, Object> map = new HashMap();
-        map.put("myChatIds", chatsMap);
-        UserManager.getInstance().udpateUser(map);
-
-        // 상대 정보 업데이트
-        Map<String, Boolean> otherChatsMap = otherUser.myChatIds;
-        otherChatsMap.put(keyid, true);
-
-        HashMap<String, Object> othermap = new HashMap();
-        othermap.put("myChatIds", otherChatsMap);
-        UserManager.getInstance().udpateUser(otherUser, othermap);
-
-        Chat chat = new Chat(keyid);
-        chat.visible = true;
-        chat.userIds.put(user.keyid, true);
-        chat.userIds.put(otherUser.keyid, true);
-        chat.userCount = chat.userIds.size();
-
-        chatsRef.setValue(chat);
-        chatsRef.child("createtime").setValue(ServerValue.TIMESTAMP);
-
-        _listener.onChatData(chat);
-        mArrListeners.remove(_listener);
+        isChat(_otherUser);
     }
 
     public void removeChat(Chat _chat){
@@ -205,6 +176,90 @@ public class ChatManager {
     public DatabaseReference getChatRefWithId(String _keyid){
         DatabaseReference chatRef = mDBChatsRef.child(_keyid);
         return chatRef;
+    }
+
+    int chatSize = 0;
+    Chat chatFind = null;
+    private void isChat(final User _otherUser){
+        chatFind = null;
+        Map<String, Boolean> chatIds = UserManager.getInstance().mUser.myChatIds;
+        chatSize = chatIds.size();
+
+        if (chatIds.size() == 0){
+            onFindChat(chatFind, _otherUser);
+            return;
+        }
+
+        Iterator<String> iter = chatIds.keySet().iterator();
+        while(iter.hasNext() && chatFind == null) {
+            String chatId = iter.next();
+
+            DatabaseReference chatRef = ChatManager.getInstance().getChatRefWithId(chatId);
+            chatRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (chatFind != null){
+                        return;
+                    }
+
+                    chatSize--;
+                    Chat chat = dataSnapshot.getValue(Chat.class);
+                    if(chat.userIds.get(_otherUser.keyid) != null){
+                        chatFind = chat;
+                    }
+
+                    if (chatSize <= 0 || chatFind != null){
+                        onFindChat(chatFind, _otherUser);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
+    }
+
+    private void onFindChat(Chat _chat, User _otherUser){
+        ChatManagerListener listener = mArrListeners.get(0);
+        if (_chat == null){
+            DatabaseReference chatsRef = mDBChatsRef.push();
+            String keyid = chatsRef.getKey();
+            User user = UserManager.getInstance().mUser;
+            User otherUser = _otherUser;
+
+            // 내정보 업데이트
+            Map<String, Boolean> chatsMap = user.myChatIds;
+            chatsMap.put(keyid, true);
+
+            HashMap<String, Object> map = new HashMap();
+            map.put("myChatIds", chatsMap);
+            UserManager.getInstance().udpateUser(map);
+
+            // 상대 정보 업데이트
+            Map<String, Boolean> otherChatsMap = otherUser.myChatIds;
+            otherChatsMap.put(keyid, true);
+
+            HashMap<String, Object> othermap = new HashMap();
+            othermap.put("myChatIds", otherChatsMap);
+            UserManager.getInstance().udpateUser(otherUser, othermap);
+
+            Chat chat = new Chat(keyid);
+            chat.visible = true;
+            chat.userIds.put(user.keyid, true);
+            chat.userIds.put(otherUser.keyid, true);
+            chat.userCount = chat.userIds.size();
+
+            chatsRef.setValue(chat);
+            chatsRef.child("createtime").setValue(ServerValue.TIMESTAMP);
+
+            listener.onChatData(chat);
+            mArrListeners.remove(listener);
+        }else{
+            listener.onChatData(_chat);
+            mArrListeners.remove(listener);
+        }
     }
 
     public void onResume(){

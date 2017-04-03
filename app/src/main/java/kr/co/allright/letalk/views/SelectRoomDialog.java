@@ -71,10 +71,16 @@ public class SelectRoomDialog extends Dialog {
     }
 
     private void onStartChat(){
+        MainActivity.getInstance().showLoading();
+
         ChatManager.getInstance().makeNewChat(mUser, new ChatManager.ChatManagerListener() {
             @Override
             public void onChatData(Chat _chat) {
+                MainActivity.getInstance().closeLoading();
                 MainActivity.getInstance().closeSelectRoom();
+                if (_chat != null) {
+                    MainActivity.getInstance().showChat(_chat);
+                }
             }
 
             @Override

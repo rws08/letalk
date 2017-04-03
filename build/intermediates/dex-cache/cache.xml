@@ -3,6 +3,15 @@
 
     <item
         is-multidex="true"
+        jar="/Users/rws/Documents/letalk/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="aa5171fa4b507cf66a0c4a82016a067a61eac311">
+        <dex dex="/Users/rws/Documents/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_0469726fd8922bb41781191045c4af3617c96969/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/rws/Documents/letalk/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
@@ -18,15 +27,6 @@
         revision="25.0.0"
         sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
         <dex dex="/Users/rws/Documents/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_1ae5cd1c5087b3be3b90fbef58e86d2f5eb8da65/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/rws/Documents/letalk/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="430421e82e5b4048a8cad1512100fedd62c95ba3">
-        <dex dex="/Users/rws/Documents/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_0469726fd8922bb41781191045c4af3617c96969/classes.dex" />
     </item>
 
 </items>
