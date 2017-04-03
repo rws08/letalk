@@ -6,27 +6,31 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:background="@drawable/apptheme_list_pressed_holo_light"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/btn_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
-        <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="5"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
             android:padding="5dp">
 
             <TextView
-                android:text="이름(나이)"
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_name"
+                android:text="이름(나이)"
                 android:textSize="18sp" />
 
             <TextView
@@ -35,7 +39,16 @@
                 android:layout_height="wrap_content"
                 android:text="거리"
                 android:textSize="18sp" />
-            </LinearLayout>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/icon_trash" />
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -48,11 +61,11 @@
         tools:listitem="@layout/cardview_message" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/apptheme_list_pressed_holo_light"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/btn_add"
@@ -61,20 +74,20 @@
             app:srcCompat="@android:drawable/ic_menu_add" />
 
         <EditText
+            android:id="@+id/et_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
             android:inputType="textPersonName"
             android:text="Name"
-            android:ems="10"
-            android:id="@+id/et_message"
-            android:layout_weight="1"
             android:textSize="24sp" />
 
         <Button
-            android:text="보내기"
+            android:id="@+id/btn_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_send"
+            android:text="보내기"
             android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>

@@ -120,7 +120,7 @@ public class AllChatsFragment extends Fragment {
         }
     };
 
-    private void onResumeData(){
+    public void onResumeData(){
         if (mValueELChats == null){
             createData();
         }

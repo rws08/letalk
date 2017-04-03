@@ -204,7 +204,7 @@ public class ChatManager {
 
                     chatSize--;
                     Chat chat = dataSnapshot.getValue(Chat.class);
-                    if(chat.userIds.get(_otherUser.keyid) != null){
+                    if(chat.visible == true && chat.userIds.get(_otherUser.keyid) != null){
                         chatFind = chat;
                     }
 

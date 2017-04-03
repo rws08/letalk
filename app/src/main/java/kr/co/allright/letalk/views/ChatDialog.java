@@ -2,8 +2,10 @@ package kr.co.allright.letalk.views;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -34,6 +36,7 @@ import kr.co.allright.letalk.data.Chat;
 import kr.co.allright.letalk.data.Message;
 import kr.co.allright.letalk.data.User;
 import kr.co.allright.letalk.etc.Utils;
+import kr.co.allright.letalk.fragment.AllChatsFragment;
 import kr.co.allright.letalk.manager.ChatManager;
 import kr.co.allright.letalk.manager.GPSTracker;
 import kr.co.allright.letalk.manager.UserManager;
@@ -50,6 +53,7 @@ public class ChatDialog extends Dialog {
     private ImageButton mBtnClose;
     private TextView mTvName;
     private TextView mTvRange;
+    private ImageButton mBtnDelete;
 
     private RecyclerView mRecMessages;
     private RecyclerView.Adapter mAdapterRecMessages;
@@ -81,6 +85,7 @@ public class ChatDialog extends Dialog {
         mBtnClose = (ImageButton) findViewById(R.id.btn_close);
         mTvName = (TextView) findViewById(R.id.tv_name);
         mTvRange = (TextView) findViewById(R.id.tv_range);
+        mBtnDelete = (ImageButton) findViewById(R.id.btn_delete);
 
         mRecMessages = (RecyclerView) findViewById(R.id.rec_messages);
         mManagerRecMessages = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -245,6 +250,26 @@ public class ChatDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 MainActivity.getInstance().closeChat();
+            }
+        });
+
+        mBtnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                alertDialog.setMessage("방을 삭제하시겠습니까?");
+                alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+                        ChatManager.getInstance().removeChat(mChat);
+                        AllChatsFragment.getInstance().onResumeData();
+                        MainActivity.getInstance().closeChat();
+                    }
+                });
+                alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                alertDialog.show();
             }
         });
 
