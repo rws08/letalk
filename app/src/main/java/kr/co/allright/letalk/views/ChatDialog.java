@@ -39,6 +39,7 @@ import kr.co.allright.letalk.etc.Utils;
 import kr.co.allright.letalk.fragment.AllChatsFragment;
 import kr.co.allright.letalk.manager.ChatManager;
 import kr.co.allright.letalk.manager.GPSTracker;
+import kr.co.allright.letalk.manager.PushManager;
 import kr.co.allright.letalk.manager.UserManager;
 
 import static kr.co.allright.letalk.data.User.SEX_MAN;
@@ -261,6 +262,21 @@ public class ChatDialog extends Dialog {
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
                         ChatManager.getInstance().removeChat(mChat);
+
+                        Iterator<String> iter = mChat.userIds.keySet().iterator();
+                        while(iter.hasNext()) {
+                            String userId = iter.next();
+                            if (!userId.equals(UserManager.getInstance().mUser.keyid)) {
+                                UserManager.getInstance().getUserData(userId, new UserManager.UserManagerListener() {
+                                    @Override
+                                    public void onUserData(User _user) {
+                                        User otherUser = _user;
+                                        PushManager.getInstance().requestRemoveChatPush(otherUser);
+                                    }
+                                });
+                            }
+                        }
+
                         AllChatsFragment.getInstance().onResumeData();
                         MainActivity.getInstance().closeChat();
                     }

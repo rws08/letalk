@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Iterator;
+
 import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.R;
 import kr.co.allright.letalk.Supporter;
@@ -14,6 +16,8 @@ import kr.co.allright.letalk.data.Chat;
 import kr.co.allright.letalk.data.Message;
 import kr.co.allright.letalk.data.User;
 import kr.co.allright.letalk.manager.ChatManager;
+import kr.co.allright.letalk.manager.PushManager;
+import kr.co.allright.letalk.manager.UserManager;
 
 import static kr.co.allright.letalk.data.User.SEX_MAN;
 
@@ -80,6 +84,20 @@ public class SelectRoomDialog extends Dialog {
                 MainActivity.getInstance().closeSelectRoom();
                 if (_chat != null) {
                     MainActivity.getInstance().showChat(_chat);
+                }
+
+                Iterator<String> iter = _chat.userIds.keySet().iterator();
+                while(iter.hasNext()) {
+                    String userId = iter.next();
+                    if (!userId.equals(UserManager.getInstance().mUser.keyid)) {
+                        UserManager.getInstance().getUserData(userId, new UserManager.UserManagerListener() {
+                            @Override
+                            public void onUserData(User _user) {
+                                User otherUser = _user;
+                                PushManager.getInstance().requestRemoveChatPush(otherUser);
+                            }
+                        });
+                    }
                 }
             }
 

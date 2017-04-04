@@ -2,8 +2,6 @@ package kr.co.allright.letalk.manager;
 
 import android.content.Context;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +20,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import kr.co.allright.letalk.data.Chat;
-import kr.co.allright.letalk.data.JsonObjectRequest;
 import kr.co.allright.letalk.data.Message;
 import kr.co.allright.letalk.data.User;
 
@@ -93,41 +90,11 @@ public class ChatManager {
                     @Override
                     public void onUserData(User _user) {
                         User otherUser = _user;
-                        requestNewMessagePush(otherUser);
+                        PushManager.getInstance().requestNewMessagePush(otherUser);
                     }
                 });
             }
         }
-    }
-
-    private static void requestNewMessagePush(User _user){
-        String url = "https://fcm.googleapis.com/fcm/send";
-        JSONObject jsonObject = new JSONObject();
-        JSONObject jsonNoti = new JSONObject();
-        JsonObjectRequest request = null;
-        try {
-            jsonNoti.put("title", "new Message");
-            jsonNoti.put("body", "New Message");
-
-            jsonObject.put("to", _user.tokenId);
-            jsonObject.put("notification", jsonNoti);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        request = new JsonObjectRequest(url, jsonObject, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        ServerBManager.getInstance().addToRequestQueue(request);
     }
 
     private static void responseStoreStatus(JSONObject jsonObj) throws JSONException {

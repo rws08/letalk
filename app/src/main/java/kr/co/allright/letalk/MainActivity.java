@@ -1,10 +1,12 @@
 package kr.co.allright.letalk;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,9 +34,11 @@ import kr.co.allright.letalk.manager.ChatManager;
 import kr.co.allright.letalk.manager.Firebase;
 import kr.co.allright.letalk.manager.GPSTracker;
 import kr.co.allright.letalk.manager.GeoManager;
+import kr.co.allright.letalk.manager.PushManager;
 import kr.co.allright.letalk.manager.RoomManager;
 import kr.co.allright.letalk.manager.ServerBManager;
 import kr.co.allright.letalk.manager.UserManager;
+import kr.co.allright.letalk.message.FbMessagingService;
 import kr.co.allright.letalk.views.ChatDialog;
 import kr.co.allright.letalk.views.SelectRoomDialog;
 import kr.co.allright.letalk.views.SignupDialog;
@@ -45,6 +49,8 @@ import static kr.co.allright.letalk.manager.UserManager.PREFS_FILE;
 import static kr.co.allright.letalk.manager.UserManager.PREFS_LOGIN_ID;
 
 public class MainActivity extends AppCompatActivity {
+    public static boolean isAppWentToBg = false;
+
     private static MainActivity mInstance = null;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 200;
@@ -61,10 +67,14 @@ public class MainActivity extends AppCompatActivity {
     private UserManager mUserManager;
     private RoomManager mRoomManager;
     private ChatManager mChatManager;
+    private PushManager mPushManager;
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private PagerAdapter mAdapter;
+
+    private Handler mHandler;
+    private String mStrChatPageTitle;
 
     public static MainActivity getInstance(){
         return mInstance;
@@ -73,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
     MainActivity(){
         super();
         mInstance = this;
+
+        mHandler = new Handler();
+        mStrChatPageTitle = "참여 방";
     }
 
     public void showSignup(){
@@ -134,6 +147,35 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void setPageIdx(int _idx){
+        mViewPager.setCurrentItem(_idx);
+    }
+
+    public void actionNewMessage(){
+        mStrChatPageTitle = "참여 방(New)";
+
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+                if(mViewPager.getCurrentItem() == 1){
+                    AllChatsFragment.getInstance().onResumeData();
+                }
+            }
+        });
+    }
+
+    public void actionEnd(){
+        mStrChatPageTitle = "참여 방";
+
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,6 +198,8 @@ public class MainActivity extends AppCompatActivity {
 
         setUI();
 
+        setPushData();
+
         checkNewApp();
     }
 
@@ -167,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
         mUserManager = new UserManager(this);
         mRoomManager = new RoomManager(this);
         mChatManager = new ChatManager(this);
+        mPushManager = new PushManager(this);
     }
 
     private void setUI(){
@@ -190,6 +235,17 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void setPushData(){
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if( bundle != null){
+            if(bundle.getString("action") != null && !bundle.getString("action").equalsIgnoreCase("")) {
+                String action = bundle.getString("action");
+                FbMessagingService.onPushAction(action);
+            }
+        }
     }
 
     public void onUpdateUI(){
@@ -238,12 +294,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        isAppWentToBg = false;
         mFirebase.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        isAppWentToBg = true;
         mFirebase.onStop();
     }
 
@@ -272,12 +330,12 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             Fragment fragment = null;
             switch (position) {
-                case 0:
+                case 0: {
                     fragment = AllRoomsFragment.getInstance();
-                    break;
-                case 1:
+                }break;
+                case 1: {
                     fragment = AllChatsFragment.getInstance();
-                    break;
+                }break;
                 case 2:{
                     fragment = ProfileFragment.getInstance();
                 }break;
@@ -288,12 +346,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0:
+                case 0: {
                     return "전체 방";
-                case 1:
-                    return "참여 방";
-                case 2:
+                }
+                case 1: {
+                    return mStrChatPageTitle;
+                }
+                case 2: {
                     return "기타";
+                }
                 default:
                     return super.getPageTitle(position);
             }

@@ -88,6 +88,7 @@ public class AllChatsFragment extends Fragment {
         super.setMenuVisibility(menuVisible);
 
         if (menuVisible) {
+            MainActivity.getInstance().actionEnd();
             onResumeData();
         }else{
             onPauseData();

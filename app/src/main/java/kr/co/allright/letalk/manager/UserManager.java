@@ -48,6 +48,7 @@ public class UserManager {
     private static final String USER_KEY_LASTACTIONTIME = "lastActionTime";
     public static final String USER_KEY_MYROOMID = "myroomId";
     public static final String USER_KEY_USERS = "users";
+    private static final String USER_KEY_MYCHATIDS = "myChatIds";
 
     private volatile static UUID mUniqId;
 
@@ -170,6 +171,10 @@ public class UserManager {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.getKey().equals(USER_KEY_LASTACTIONTIME)){
                     mLastActionTime = (long) dataSnapshot.getValue();
+                }else if (dataSnapshot.getKey().equals(USER_KEY_MYCHATIDS)){
+                    HashMap hashMap = (HashMap) dataSnapshot.getValue();
+                    mUser.myChatIds.clear();
+                    mUser.myChatIds.putAll(hashMap);
                 }
             }
 
