@@ -51,7 +51,12 @@ public class Firebase {
         mAuth = FirebaseAuth.getInstance();
 
         mDatabase = FirebaseDatabase.getInstance();
-        mDBUsersRef = mDatabase.getReference("users");
+
+        if (MainActivity.SERVER_TYPE == MainActivity.SERVER_TYPE_DEV){
+            mDBUsersRef = mDatabase.getReference("DEV").child("users");
+        }else{
+            mDBUsersRef = mDatabase.getReference("users");
+        }
 
         createListener();
     }

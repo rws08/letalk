@@ -265,7 +265,7 @@ public class AllRoomsFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (holder.mUser.keyid.equals(UserManager.getInstance().mUser.keyid)){
-                        Toast.makeText(getContext(), "당신의 방입니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.lay_frag_yourmessage), Toast.LENGTH_SHORT).show();
                         return;
                     }
                     MainActivity.getInstance().showSelectRoom(holder.mUser);

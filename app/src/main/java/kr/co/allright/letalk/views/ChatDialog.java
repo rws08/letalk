@@ -258,7 +258,7 @@ public class ChatDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                alertDialog.setMessage("방을 삭제하시겠습니까?");
+                alertDialog.setMessage(getContext().getString(R.string.lay_dial_finishtalk));
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog,int which) {
                         ChatManager.getInstance().removeChat(mChat);

@@ -40,8 +40,8 @@ public class PushManager {
         JSONObject jsonData = new JSONObject();
 
         try {
-            jsonData.put("title", "새 메세지");
-            jsonData.put("body", "새 메세지가 도착했습니다.");
+            jsonData.put("title", "New message");
+            jsonData.put("body", "A new message has arrived.");
             jsonData.put("action", PUSH_ACTION_NEW_MESSAGE);
 
             jsonObject.put("to", _user.tokenId);
@@ -71,8 +71,8 @@ public class PushManager {
         JSONObject jsonData = new JSONObject();
 
         try {
-            jsonData.put("title", "채팅 생성");
-            jsonData.put("body", "채팅방이 새로 만들어졌습니다.");
+            jsonData.put("title", "Invite to you");
+            jsonData.put("body", "Someone wants to talk to you.");
             jsonData.put("action", PUSH_ACTION_NEW_CHAT);
 
             jsonObject.put("to", _user.tokenId);
@@ -102,8 +102,8 @@ public class PushManager {
         JSONObject jsonData = new JSONObject();
 
         try {
-            jsonData.put("title", "채팅 삭제");
-            jsonData.put("body", "채팅방이 삭제되었습니다.");
+            jsonData.put("title", "End talk");
+            jsonData.put("body", "Some talk is over.");
             jsonData.put("action", PUSH_ACTION_REMOVE_CHAT);
 
             jsonObject.put("to", _user.tokenId);

@@ -94,7 +94,7 @@ public class SelectRoomDialog extends Dialog {
                             @Override
                             public void onUserData(User _user) {
                                 User otherUser = _user;
-                                PushManager.getInstance().requestRemoveChatPush(otherUser);
+                                PushManager.getInstance().requestNewChatPush(otherUser);
                             }
                         });
                     }

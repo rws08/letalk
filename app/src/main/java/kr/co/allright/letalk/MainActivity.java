@@ -55,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 200;
 
+    public static final int SERVER_TYPE_DEV = 1;
+    public static final int SERVER_TYPE_REAL = 2;
+    public static final int SERVER_TYPE = SERVER_TYPE_REAL; // 1: DEV, 2: PRO
+
     public SignupDialog mSignupDl;
     public SelectRoomDialog mSelectRoomDl;
     public ChatDialog mChatDl;
@@ -85,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         mInstance = this;
 
         mHandler = new Handler();
-        mStrChatPageTitle = "참여 방";
     }
 
     public void showSignup(){
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         if (mDialog != null){
             return;
         }
-        mDialog = ProgressDialog.show(this, "", "잠시만 기다리세요.", true);
+        mDialog = ProgressDialog.show(this, "", getString(R.string.lay_dial_loading), true);
     }
 
     public void closeLoading(){
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void actionNewMessage(){
-        mStrChatPageTitle = "참여 방(New)";
+        mStrChatPageTitle = getString(R.string.lay_dial_mychat) + "(New)";
 
         mHandler.post(new Runnable() {
             @Override
@@ -166,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void actionEnd(){
-        mStrChatPageTitle = "참여 방";
+        mStrChatPageTitle = getString(R.string.lay_dial_mychat);
 
         mHandler.post(new Runnable() {
             @Override
@@ -195,6 +198,8 @@ public class MainActivity extends AppCompatActivity {
 
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager = (ViewPager) findViewById(R.id.pager);
+
+        mStrChatPageTitle = getString(R.string.lay_dial_mychat);
 
         setUI();
 
@@ -347,13 +352,13 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0: {
-                    return "전체 방";
+                    return getString(R.string.lay_dial_allchat);
                 }
                 case 1: {
                     return mStrChatPageTitle;
                 }
                 case 2: {
-                    return "기타";
+                    return getString(R.string.lay_dial_profile);
                 }
                 default:
                     return super.getPageTitle(position);
@@ -384,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
                 // Permission is granted
                 showContacts();
             } else {
-                Toast.makeText(this, "사용권한이 없어 실행할 수 없습니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.lay_error_permissions), Toast.LENGTH_SHORT).show();
             }
         }else if(requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {

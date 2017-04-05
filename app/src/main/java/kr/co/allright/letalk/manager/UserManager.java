@@ -74,7 +74,12 @@ public class UserManager {
         mUser = new User();
 
         mDatabase = FirebaseDatabase.getInstance();
-        mDBUsersRef = mDatabase.getReference(USER_KEY_USERS);
+
+        if (MainActivity.SERVER_TYPE == MainActivity.SERVER_TYPE_DEV){
+            mDBUsersRef = mDatabase.getReference("DEV").child(USER_KEY_USERS);
+        }else{
+            mDBUsersRef = mDatabase.getReference(USER_KEY_USERS);
+        }
 
         makeDeviceID();
     }

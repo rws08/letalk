@@ -1,6 +1,33 @@
 <resources>
-    <string name="app_name">Letalk</string>
+    <string name="app_name" translatable="false">Letalk</string>
     <string name="action_settings">Settings</string>
     <string name="d_selectroom_message">대화를 시작하시겠습니까?</string>
-    <string name="banner_ad_unit_id_base">ca-app-pub-8387264853352950/7758049966</string>
+    <string name="banner_ad_unit_id_base" translatable="false">ca-app-pub-8387264853352950/7758049966</string>
+    <string name="lay_card_name_age">Name(Age)</string>
+    <string name="lay_card_distance">Distance</string>
+    <string name="lay_card_time">Time</string>
+    <string name="lay_card_message">Message</string>
+    <string name="lay_dial_name">Name</string>
+    <string name="lay_dial_send">Send</string>
+    <string name="lay_dial_talk">Talk</string>
+    <string name="lay_dial_To">To</string>
+    <string name="lay_dial_Start">Start</string>
+    <string name="lay_dial_LetTalk">Let talk</string>
+    <string name="lay_dial_inputemail">name@example.com</string>
+    <string name="lay_dial_age">Age</string>
+    <string name="lay_dial_man">Male</string>
+    <string name="lay_dial_woman">Female</string>
+    <string name="lay_dial_firstmessage">First message</string>
+    <string name="lay_dial_accept">Accept</string>
+    <string name="lay_dial_showmessage">Show message</string>
+    <string name="lay_frag_yourmessage">Your message.</string>
+    <string name="lay_frag_applied">Content has been applied.</string>
+    <string name="lay_frag_faild">Update failed.</string>
+    <string name="lay_dial_finishtalk">Do you want to finish the talk?</string>
+    <string name="lay_dial_loading">Wait for loading...</string>
+    <string name="lay_dial_allchat">All chat</string>
+    <string name="lay_dial_mychat">My chat</string>
+    <string name="lay_dial_profile">Profile</string>
+    <string name="lay_error_permissions">Can not run because you do not have permissions.</string>
+    <string name="lay_frag_all">All</string>
 </resources>

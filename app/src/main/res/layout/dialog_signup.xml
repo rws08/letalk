@@ -7,7 +7,7 @@
     android:layout_margin="10dp">
 
     <TextView
-        android:text="시작하기"
+        android:text="@string/lay_dial_LetTalk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
@@ -21,7 +21,7 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/et_email"
-        android:hint="* 이메일을 입력하세요"
+        android:hint="@string/lay_dial_inputemail"
         android:maxLines="1"
         android:background="@drawable/apptheme_edit_text_holo_light"
         android:layout_marginBottom="10dp" />
@@ -32,7 +32,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/et_name"
-        android:hint="이름을 입력하세요."
+        android:hint="@string/lay_dial_name"
         android:maxLines="1"
         android:background="@drawable/apptheme_edit_text_holo_light"
         android:layout_marginBottom="10dp" />
@@ -43,7 +43,7 @@
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/et_age"
-        android:hint="나이를 입력하세요."
+        android:hint="@string/lay_dial_age"
         android:maxLines="1"
         android:maxLength="2"
         android:background="@drawable/apptheme_edit_text_holo_light"
@@ -58,7 +58,7 @@
         android:layout_marginBottom="10dp">
 
         <RadioButton
-            android:text="남자"
+            android:text="@string/lay_dial_man"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/rbtn_man"
@@ -66,7 +66,7 @@
             android:textSize="18sp" />
 
         <RadioButton
-            android:text="여자"
+            android:text="@string/lay_dial_woman"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/rbtn_woman"
@@ -81,13 +81,13 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/et_myroom_title"
-        android:hint="인사말을 입력하세요."
+        android:hint="@string/lay_dial_firstmessage"
         android:maxLines="1"
         android:background="@drawable/apptheme_edit_text_holo_light"
         android:layout_marginBottom="10dp" />
 
     <Button
-        android:text="시작하기"
+        android:text="@string/lay_dial_Start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_signup"

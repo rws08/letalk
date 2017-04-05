@@ -140,7 +140,7 @@ public class ProfileFragment extends Fragment {
                 if (dataSnapshot.getKey().equals("logintime")){
 
                 }else{
-                    Toast.makeText(getContext(), "업데이트 되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.lay_frag_applied), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -156,7 +156,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getContext(), "업데이트를 실패했습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.lay_frag_faild), Toast.LENGTH_SHORT).show();
             }
         };
 

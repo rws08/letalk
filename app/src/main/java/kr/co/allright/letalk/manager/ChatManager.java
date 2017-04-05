@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.data.Chat;
 import kr.co.allright.letalk.data.Message;
 import kr.co.allright.letalk.data.User;
@@ -32,6 +33,8 @@ public class ChatManager {
         void onChatData(Chat _chat);
         void onMessageData(Message _message);
     }
+
+    public static final String PREFS_CREATETIME = "createtime";
 
     private static ChatManager mInstance = null;
     private Context mContext;
@@ -55,8 +58,14 @@ public class ChatManager {
         mArrListeners = new ArrayList<>();
 
         mDatabase = FirebaseDatabase.getInstance();
-        mDBChatsRef = mDatabase.getReference("chats");
-        mDBMessagesRef = mDatabase.getReference("messages");
+
+        if (MainActivity.SERVER_TYPE == MainActivity.SERVER_TYPE_DEV){
+            mDBChatsRef = mDatabase.getReference("DEV").child("chats");
+            mDBMessagesRef = mDatabase.getReference("DEV").child("messages");
+        }else{
+            mDBChatsRef = mDatabase.getReference("chats");
+            mDBMessagesRef = mDatabase.getReference("messages");
+        }
     }
 
     public DatabaseReference getMessagesRef(Chat _chat){
@@ -77,7 +86,7 @@ public class ChatManager {
         _message.unreadcount = _chat.userIds.size() - 1;
 
         messagesRef.setValue(_message);
-        messagesRef.child("createtime").setValue(ServerValue.TIMESTAMP);
+        messagesRef.child(PREFS_CREATETIME).setValue(ServerValue.TIMESTAMP);
 
         _listener.onMessageData(_message);
         mArrListeners.remove(_listener);
@@ -133,7 +142,7 @@ public class ChatManager {
         _chat.visible = false;
 
         chatsRef.setValue(_chat);
-        chatsRef.child("createtime").setValue(ServerValue.TIMESTAMP);
+        chatsRef.child(PREFS_CREATETIME).setValue(ServerValue.TIMESTAMP);
     }
 
     public DatabaseReference getChatsRef(){
@@ -219,7 +228,7 @@ public class ChatManager {
             chat.userCount = chat.userIds.size();
 
             chatsRef.setValue(chat);
-            chatsRef.child("createtime").setValue(ServerValue.TIMESTAMP);
+            chatsRef.child(PREFS_CREATETIME).setValue(ServerValue.TIMESTAMP);
 
             listener.onChatData(chat);
             mArrListeners.remove(listener);

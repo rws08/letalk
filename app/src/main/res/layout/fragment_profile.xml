@@ -12,12 +12,13 @@
         android:layout_marginTop="10dp">
 
         <TextView
-            android:text="이름"
-            android:layout_width="wrap_content"
+            android:text="@string/lay_dial_name"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/textView2"
             android:gravity="center_vertical"
             android:textSize="18sp"
+            android:layout_weight="4"
             android:layout_marginRight="20dp" />
 
         <EditText
@@ -26,8 +27,9 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/et_name"
-            android:hint="이름"
+            android:hint="@string/lay_dial_name"
             android:maxLines="1"
+            android:layout_weight="1"
             android:background="@drawable/apptheme_edit_text_holo_light" />
     </LinearLayout>
 
@@ -38,12 +40,13 @@
         android:layout_marginTop="10dp">
 
         <TextView
-            android:text="나이"
-            android:layout_width="wrap_content"
+            android:text="@string/lay_dial_age"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/textView3"
             android:gravity="center_vertical"
             android:textSize="18sp"
+            android:layout_weight="4"
             android:layout_marginRight="20dp" />
 
         <EditText
@@ -52,9 +55,10 @@
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/et_age"
-            android:hint="나이"
+            android:hint="@string/lay_dial_age"
             android:maxLines="1"
             android:maxLength="2"
+            android:layout_weight="1"
             android:background="@drawable/apptheme_edit_text_holo_light" />
 
     </LinearLayout>
@@ -64,14 +68,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
-        <TextView
-            android:text="성별"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/textView4"
-            android:gravity="center_vertical"
-            android:textSize="18sp"
-            android:layout_marginRight="20dp" />
         <RadioGroup
             android:layout_width="match_parent"
             android:checkedButton="@+id/rbtn_man"
@@ -80,7 +76,7 @@
             android:layout_height="match_parent">
 
             <RadioButton
-                android:text="남자"
+                android:text="@string/lay_dial_man"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/rbtn_man"
@@ -88,7 +84,7 @@
                 android:textSize="18sp" />
 
             <RadioButton
-                android:text="여자"
+                android:text="@string/lay_dial_woman"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/rbtn_woman"
@@ -104,13 +100,13 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/et_myroom_title"
-        android:hint="인사말을 입력하세요."
+        android:hint="@string/lay_dial_firstmessage"
         android:maxLines="1"
         android:background="@drawable/apptheme_edit_text_holo_light"
         android:layout_marginTop="10dp" />
 
     <Switch
-        android:text="내방 보이기"
+        android:text="@string/lay_dial_showmessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/sw_myroom"
@@ -118,7 +114,7 @@
         android:layout_marginTop="10dp" />
 
     <Button
-        android:text="변경하기"
+        android:text="@string/accept"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_accept"

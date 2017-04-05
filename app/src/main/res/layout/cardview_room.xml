@@ -26,7 +26,7 @@
             android:layout_marginTop="5dp">
 
             <TextView
-                android:text="이름(나이)"
+                android:text="@string/lay_card_name_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_name"
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="거리"
+                android:text="@string/lay_card_distance"
                 android:textSize="18sp" />
 
             <TextView
@@ -57,13 +57,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="시간"
+                android:text="@string/lay_card_time"
                 android:textSize="18sp" />
 
         </LinearLayout>
 
         <TextView
-            android:text="메세지"
+            android:text="@string/lay_card_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tv_message"

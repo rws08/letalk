@@ -15,6 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.fragment.AllRoomsFragment;
 
 import static kr.co.allright.letalk.manager.UserManager.USER_KEY_MYROOMID;
@@ -44,7 +45,11 @@ public class GeoManager {
         mContext = _context;
 
         mDatabase = FirebaseDatabase.getInstance();
-        geoFire = new GeoFire(mDatabase.getReference("geofile"));
+        if (MainActivity.SERVER_TYPE == MainActivity.SERVER_TYPE_DEV){
+            geoFire = new GeoFire(mDatabase.getReference("DEV").child("geofile"));
+        }else{
+            geoFire = new GeoFire(mDatabase.getReference("geofile"));
+        }
 
         mArrSearchKeys = new ArrayList<>();
         mArrRoomids = new ArrayList<>();
@@ -87,10 +92,12 @@ public class GeoManager {
         });
     }
 
+    int serchCount;
     private void getSearchDataWithUserkeys(){
         mArrRoomids.clear();
 
         DatabaseReference usersRef = mDatabase.getReference(USER_KEY_USERS);
+        serchCount = mArrSearchKeys.size();
         for (int i = 0; i < mArrSearchKeys.size(); i++){
             String userKey = mArrSearchKeys.get(i);
             DatabaseReference userRef = usersRef.child(userKey);
@@ -98,7 +105,9 @@ public class GeoManager {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String roomid = (String) dataSnapshot.child(USER_KEY_MYROOMID).getValue();
-                    mArrRoomids.add(roomid);
+                    if (roomid != null) {
+                        mArrRoomids.add(roomid);
+                    }
                     onEndSearch();
                 }
 
@@ -111,7 +120,8 @@ public class GeoManager {
     }
 
     private void onEndSearch(){
-        if (mArrSearchKeys.size() == mArrRoomids.size()){
+        serchCount--;
+        if (serchCount == 0){
             AllRoomsFragment.getInstance().onSearchRooms();
         }
     }

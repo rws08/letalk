@@ -21,22 +21,22 @@ public class Utils {
             strTime = "-";
         }else if (time / TIME_MIN <= 0){
             // 초처리
-            strTime = time + "초전";
+            strTime = time + "s";
         }else if(time / TIME_HOUR <= 0){
             // 분처리
-            strTime = time / TIME_MIN + "분전";
+            strTime = time / TIME_MIN + "m";
         }else if(time / TIME_DAY <= 0){
             // 시처리
-            strTime = time / TIME_HOUR + "시간전";
+            strTime = time / TIME_HOUR + "h";
         }else if(time / TIME_MONTH <= 0){
             // 일처리
-            strTime = time / TIME_DAY + "일전";
+            strTime = time / TIME_DAY + "d";
         }else if(time / TIME_YEAR <= 0){
             // 월처리
-            strTime = time / TIME_MONTH + "개월전";
+            strTime = time / TIME_MONTH + "M";
         }else{
             // 연처리
-            strTime = time / TIME_YEAR + "년전";
+            strTime = time / TIME_YEAR + "y";
         }
 
         if (_befortime == 0){

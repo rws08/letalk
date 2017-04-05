@@ -10,6 +10,7 @@ import java.util.Map;
 public class User {
     static public String SEX_MAN = "man";
     static public String SEX_WOMAN = "woman";
+    static public String SEX_OTHER = "other";
 
     public String keyid;
     public String loginId;

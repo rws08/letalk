@@ -8,6 +8,7 @@ import com.google.firebase.database.ServerValue;
 
 import java.util.HashMap;
 
+import kr.co.allright.letalk.MainActivity;
 import kr.co.allright.letalk.data.Room;
 import kr.co.allright.letalk.data.User;
 
@@ -32,7 +33,12 @@ public class RoomManager {
         mContext = _context;
 
         mDatabase = FirebaseDatabase.getInstance();
-        mDBRoomsRef = mDatabase.getReference("rooms");
+
+        if (MainActivity.SERVER_TYPE == MainActivity.SERVER_TYPE_DEV){
+            mDBRoomsRef = mDatabase.getReference("DEV").child("rooms");
+        }else{
+            mDBRoomsRef = mDatabase.getReference("rooms");
+        }
     }
 
     public DatabaseReference getRoomRefWithId(String _keyid){

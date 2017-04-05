@@ -30,14 +30,14 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이름(나이)"
+                android:text="@string/lay_card_name_age"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_range"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="거리"
+                android:text="@string/lay_card_distance"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -80,14 +80,14 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name"
+            android:text="@string/lay_dial_name"
             android:textSize="24sp" />
 
         <Button
             android:id="@+id/btn_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="보내기"
+            android:text="@string/lay_dial_send"
             android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>
