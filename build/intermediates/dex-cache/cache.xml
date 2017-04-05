@@ -3,6 +3,24 @@
 
     <item
         is-multidex="true"
+        jar="/Users/rws/Documents/letalk/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8ec21e77a0f0023c3dc533a3fa491806865d6c92">
+        <dex dex="/Users/rws/Documents/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_0469726fd8922bb41781191045c4af3617c96969/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/rws/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations-java5/15.0/7011b4551a8451906759b05814c58b9eb829ea9b/annotations-java5-15.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="7011b4551a8451906759b05814c58b9eb829ea9b">
+        <dex dex="/Users/rws/Documents/letalk/app/build/intermediates/pre-dexed/release/annotations-java5-15.0_1863781161838e4c64a66f6a252f1d435554e14d.jar" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/rws/Documents/letalk/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
@@ -11,13 +29,13 @@
         <dex dex="/Users/rws/Documents/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_02e5c93799757a8990fe38bb700783485891bcc7/classes.dex" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/rws/Documents/letalk/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/rws/.android/build-cache/c357fac5d64b6a42e5ccae1f861171b0f3810673/output/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="46fe5fbbb90cbfdd7058273b90a80c580d0a4c40">
-        <dex dex="/Users/rws/Documents/letalk/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_0469726fd8922bb41781191045c4af3617c96969/classes.dex" />
+        sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
+        <dex dex="/Users/rws/Documents/letalk/app/build/intermediates/pre-dexed/release/classes_1ae5cd1c5087b3be3b90fbef58e86d2f5eb8da65.jar" />
     </item>
 
 </items>
